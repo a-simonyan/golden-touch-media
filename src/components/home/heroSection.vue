@@ -55,7 +55,7 @@ export default {
 <style lang="scss" scoped>
 .hero-container {
   background-image: url("@/assets/images/header.svg");
-  height: 70vh;
+  height: 85vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

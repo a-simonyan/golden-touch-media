@@ -229,8 +229,7 @@ const teamMembers = ref([
 .scrollbar::-webkit-scrollbar {
   height: 0px;
   width: 0px;
-  // border-radius: 11px;
-  // margin-top: 10px;
+
 }
 .scrollbar::-webkit-scrollbar:vertical {
   display: none;
