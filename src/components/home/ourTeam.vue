@@ -229,9 +229,11 @@ const teamMembers = ref([
 .scrollbar::-webkit-scrollbar {
   height: 0px;
   width: 0px;
-
 }
 .scrollbar::-webkit-scrollbar:vertical {
+  display: none;
+}
+.scrollbar::-webkit-scrollbar:horizontal {
   display: none;
 }
 .scrollbar::-webkit-scrollbar-track {
