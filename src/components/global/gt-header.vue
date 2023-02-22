@@ -57,9 +57,7 @@ const openBurgerManu = () => {
   z-index: 999;
   position: fixed;
   width: 100%;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+
   display: flex;
   flex-direction: column;
   height: 81px;
@@ -111,7 +109,8 @@ const openBurgerManu = () => {
   &__content {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    width: 100%;
 
     &--title {
       margin: 0 86.5px;
