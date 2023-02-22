@@ -1,49 +1,48 @@
 <template>
   <div class="nav-container">
-    <div class="nav-container__logo-box">
-      <img
-        src="@/assets/logo/general-logo.svg"
-        alt="logo"
-        class="nav-container__logo-box--logo"
-      />
-    </div>
-    <div class="nav-container__content">
-      <div class="nav-container__content--title">HOME</div>
-      <div class="nav-container__content--title">ORDER VIDEO</div>
-      <div class="nav-container__content--title">
-        WIN MUSIC VIDEO PRODUCTION
+    <div class="nav-container__box">
+      <div class="nav-container__logo-box">
+        <img
+          src="@/assets/logo/general-logo.svg"
+          alt="logo"
+          class="nav-container__logo-box--logo"
+        />
       </div>
-    </div>
-    <details>
-      <summary>
-        <div class="nav-container__burger" @click="openBurgerManu">
-          <img
-            v-if="!isOpenBurger"
-            src="@/assets/icons/burger.svg"
-            alt="burger"
-            class="nav-container__burger--icon"
-          />
-          <img
-            v-if="isOpenBurger"
-            src="@/assets/icons/gold-burger.svg"
-            alt="burger"
-            class="nav-container__burger--icon"
-          />
-        </div>
-      </summary>
-      <div class="burger-manu">
-        <div class="burger-manu__content">
-          <div class="burger-manu__content--box">
-            <div class="burger-manu__content--box-name">Home</div>
-            <div class="burger-manu__content--divider"></div>
-            <div class="burger-manu__content--box-name">Order Video</div>
-            <div class="burger-manu__content--divider"></div>
-            <div class="burger-manu__content--box-name">Lorem Ipsum</div>
-            <div class="burger-manu__content--divider"></div>
-          </div>
+      <div class="nav-container__content">
+        <div class="nav-container__content--title">HOME</div>
+        <div class="nav-container__content--title">ORDER VIDEO</div>
+        <div class="nav-container__content--title">
+          WIN MUSIC VIDEO PRODUCTION
         </div>
       </div>
-    </details>
+
+      <div class="nav-container__burger" @click="openBurgerManu">
+        <img
+          v-if="!isOpenBurger"
+          src="@/assets/icons/burger.svg"
+          alt="burger"
+          class="nav-container__burger--icon"
+        />
+        <img
+          v-if="isOpenBurger"
+          src="@/assets/icons/gold-burger.svg"
+          alt="burger"
+          class="nav-container__burger--icon"
+        />
+      </div>
+    </div>
+    <div class="burger-manu" v-if="isOpenBurger">
+      <div class="burger-manu__content">
+        <div class="burger-manu__content--box">
+          <div class="burger-manu__content--box-name">Home</div>
+          <div class="burger-manu__content--divider"></div>
+          <div class="burger-manu__content--box-name">Order Video</div>
+          <div class="burger-manu__content--divider"></div>
+          <div class="burger-manu__content--box-name">Lorem Ipsum</div>
+          <div class="burger-manu__content--divider"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -54,18 +53,25 @@ const openBurgerManu = () => {
 };
 </script>
 <style lang="scss" scoped>
-@import url("https://fonts.cdnfonts.com/css/segoe-ui-4");
 .nav-container {
   z-index: 999;
   position: fixed;
   width: 100%;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   height: 81px;
   background: rgba(23, 23, 23, 0.72);
   opacity: 0.96;
-
+  &__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 81px;
+  }
   &__logo-box {
     position: relative;
     display: flex;
@@ -154,60 +160,50 @@ const openBurgerManu = () => {
     padding: 0 16px;
   }
 }
+
 .burger-manu {
   display: none;
+  position: relative;
   @media screen and (max-width: 1250px) {
     display: block;
+  }
+  &__content {
     position: absolute;
-    top: 170px;
-    left: 0;
+    top: 20px;
     width: 100%;
-    &__content {
-      width: 100%;
+    &--box {
+      width: 440px;
       height: 152px;
+      margin: 0 auto;
       display: flex;
-      justify-content: center;
-      details: [open] {
-
+      flex-direction: column;
+      align-items: center;
+      opacity: 1 !important;
+      border-top: 1px solid $gold;
+      border-bottom: 1px solid $gold;
+      background: rgba(23, 23, 23, 0.5);
+      box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.36);
+      backdrop-filter: blur(25px);
+      @media screen and (max-width: 550px) {
+        width: 320px;
       }
-      &--box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 440px;
-        opacity: 1 !important;
-        border-top: 1px solid $gold;
-        border-bottom: 1px solid $gold;
-        background: rgba(23, 23, 23, 0.5);
-        box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.36);
-        backdrop-filter: blur(25px);
-        @media screen and (max-width: 550px) {
-          width: 320px;
-        }
-        @media screen and (max-width: 400px) {
-          width: 288px;
-        }
-        &-name {
-          font-style: normal;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 150%;
-          color: $silver;
-          margin: 12px 0 6px;
-        }
+      @media screen and (max-width: 400px) {
+        width: 288px;
       }
-      &--divider {
-        height: 0px;
-        width: 42px;
-        border-bottom: 1px solid $gold;
+      &-name {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 150%;
+        color: $silver;
+        margin: 12px 0 6px;
       }
     }
+    &--divider {
+      height: 0px;
+      width: 42px;
+      border-bottom: 1px solid $gold;
+    }
   }
-}
-details > summary {
-  list-style: none;
-}
-details > summary::-webkit-details-marker {
-  display: none;
 }
 </style>
