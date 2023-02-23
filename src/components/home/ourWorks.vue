@@ -23,32 +23,7 @@
 export default {
   name: "gt-ourWorks",
 
-  // data() {
-  //   return {
-  //     slides: [
-  //       {
-  //         id: 1,
-  //         img: require("../../assets/images/slide-img1.jpg"),
-  //       },
-  //       {
-  //         id: 2,
-  //         img: require("../../assets/images/slide-img2.jpg"),
-  //       },
-  //       {
-  //         id: 3,
-  //         img: require("../../assets/images/slide-img3.jpg"),
-  //       },
-  // {
-  //   id: 4,
-  //   img: require("../../assets/images/slide-img1.jpg"),
-  // },
-  // {
-  //   id: 5,
-  //   img: require("../../assets/images/slide-img2.jpg"),
-  // },
-  // ],
-  // };
-  // },
+
 };
 </script>
 

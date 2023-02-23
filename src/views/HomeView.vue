@@ -17,7 +17,7 @@ import gtVideoSection from "@/components/home/videoSection.vue";
 import gtOurServices from "@/components/home/ourServices.vue";
 import gtMusicProduction from "@/components/home/musicProduction.vue";
 import gtOurWorks from "@/components/home/ourWorks.vue";
-import gtTestimonials from "@/components/home/testimonials.vue";
+import gtTestimonials from "@/components/home/gt-testimonials.vue";
 import gtOurTeam from "@/components/home/ourTeam.vue";
-import gtQuestions from  "@/components/home/questions.vue";
+import gtQuestions from "@/components/home/questions.vue";
 </script>

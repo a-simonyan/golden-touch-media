@@ -198,11 +198,12 @@ const teamMembers = ref([
         align-items: center;
         justify-content: center;
         margin-top: 50px;
-        @media screen and (max-width: 1850px) {
-          margin-top: 25px;
-        }
+
         @media screen and (max-width: 1850px) {
           margin-top: 0px;
+        }
+        @media screen and (max-width: 1100px) {
+          margin-top: 25px;
         }
       }
       &-vname {
