@@ -378,6 +378,9 @@ const sliders = ref([
   width: 5px;
 }
 ::v-deep {
+  .vueperslides--touchable .vueperslides__track {
+    cursor: auto;
+}
   .vueperslides__arrow {
     width: 30px;
     height: 30px;
