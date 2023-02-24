@@ -15,7 +15,7 @@
         />
       </div>
       <div class="container__content--carousel">
-        <vueper-slides :infinite="false" class="no-shadow" :fixed-height="true">
+        <vueper-slides :dragging-distance="70" :infinite="false" class="no-shadow" :fixed-height="true">
           <template #arrow-left>
             <img src="@/assets/icons/arrow-left.svg" alt="" class="arrows" />
           </template>
@@ -156,6 +156,9 @@ const sliders = ref([
         @media screen and (max-width: 550px) {
           font-size: 12px;
           line-height: 170%;
+          width: 370px;
+        }
+        @media screen and (max-width: 450px) {
           width: 250px;
         }
       }
@@ -172,7 +175,10 @@ const sliders = ref([
         @media screen and (max-width: 880px) {
           min-width: 400px;
         }
-        @media screen and (max-width: 880px) {
+        @media screen and (max-width: 550px) {
+          min-width: 370px;
+        }
+        @media screen and (max-width: 450px) {
           min-width: 250px;
         }
       }
@@ -380,7 +386,7 @@ const sliders = ref([
 ::v-deep {
   .vueperslides--touchable .vueperslides__track {
     cursor: auto;
-}
+  }
   .vueperslides__arrow {
     width: 30px;
     height: 30px;

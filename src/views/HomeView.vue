@@ -12,12 +12,12 @@
 </template>
 
 <script setup>
-import gtHeroSection from "@/components/home/heroSection.vue";
-import gtVideoSection from "@/components/home/videoSection.vue";
-import gtOurServices from "@/components/home/ourServices.vue";
-import gtMusicProduction from "@/components/home/musicProduction.vue";
-import gtOurWorks from "@/components/home/ourWorks.vue";
+import gtHeroSection from "@/components/home/gt-heroSection.vue";
+import gtVideoSection from "@/components/home/gt-videoSection.vue";
+import gtOurServices from "@/components/home/gt-ourServices.vue";
+import gtMusicProduction from "@/components/home/gt-musicProduction.vue";
+import gtOurWorks from "@/components/home/gt-ourWorks.vue";
 import gtTestimonials from "@/components/home/gt-testimonials.vue";
-import gtOurTeam from "@/components/home/ourTeam.vue";
-import gtQuestions from "@/components/home/questions.vue";
+import gtOurTeam from "@/components/home/gt-ourTeam.vue";
+import gtQuestions from "@/components/home/gt-questions.vue";
 </script>

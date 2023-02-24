@@ -25,14 +25,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import gtAccordionVue from "./gt-accordion.vue";
-export default {
-  name: "gt-questions",
-  components: {
-    gtAccordionVue,
-  },
-};
+
 </script>
 
 <style lang="scss" scoped>

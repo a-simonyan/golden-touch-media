@@ -12,7 +12,7 @@
           class="plus-minus"
         />
         <img
-          v-if="item.isExpand"
+          v-else
           src="@/assets/icons/minus-icon.svg"
           alt="plus"
           class="plus-minus"

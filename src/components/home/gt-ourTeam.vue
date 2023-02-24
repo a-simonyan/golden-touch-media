@@ -39,9 +39,9 @@
 </template>
   
   <script setup>
-import gtTeamMember from "./teamMember.vue";
-import { ref } from "vue";
-const teamMembers = ref([
+import gtTeamMember from "./gt-teamMember.vue";
+import { reactive } from "vue";
+const teamMembers = reactive([
   {
     id: 1,
     img: `${require("@/assets/images/member1.svg")}`,

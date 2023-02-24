@@ -46,10 +46,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "gt-heroSection",
-};
+<script setup>
+
 </script>
 
 <style lang="scss" scoped>

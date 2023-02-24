@@ -83,10 +83,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "gt-ourServices",
-};
+<script setup>
+
 </script>
 
 <style lang="scss" scoped>
