@@ -15,7 +15,7 @@
         />
       </div>
       <div class="container__content--carousel">
-        <vueper-slides :dragging-distance="20" :infinite="false" class="no-shadow" :fixed-height="true">
+        <vueper-slides :dragging-distance="20" :preventYScroll="true" :infinite="false" class="no-shadow" :fixed-height="true">
           <template #arrow-left>
             <img src="@/assets/icons/arrow-left.svg" alt="" class="arrows" />
           </template>
