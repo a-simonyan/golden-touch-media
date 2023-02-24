@@ -19,11 +19,15 @@
             <div class="footer-container__content--body-box">
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>Our Works</span>
+                <span>
+                  <a href="#our-works"> Our Works </a>
+                </span>
               </div>
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>Our Team</span>
+                <span>
+                  <a href="#our-team"> Our Team </a>
+                </span>
               </div>
             </div>
           </div>
@@ -36,15 +40,25 @@
             <div class="footer-container__content--body-box">
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>Production</span>
+                <span>
+                  <a href="#services"> Production </a>
+                </span>
               </div>
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>Processed</span>
+                <span>
+                  <a :href="windowWidth > 1024 ? '#services' : '#production'">
+                    Processed
+                  </a>
+                </span>
               </div>
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>Finished Work</span>
+                <span>
+                  <a :href="windowWidth > 1024 ? '#services' : '#processed'">
+                    Finished Work
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -96,10 +110,13 @@
   </div>
 </template> 
 
-<script >
-export default {
-  name: "gt-footer",
-};
+<script setup>
+import { ref, onBeforeMount } from "vue";
+const windowWidth = ref(null);
+onBeforeMount(() => {
+  windowWidth.value = window.innerWidth;
+  console.log(windowWidth.value, "width");
+});
 </script>
 
 <style lang="scss" scoped>
@@ -174,6 +191,7 @@ export default {
           margin-left: 8px;
           @media screen and (max-width: 750px) {
             text-align: center;
+            margin-left: 0px;
           }
         }
       }

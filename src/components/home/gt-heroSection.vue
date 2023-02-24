@@ -37,7 +37,7 @@
               <span class="hero-container__content--btn-container-short-title">
                 Read About
               </span>
-              Our Serices
+              Our Services
             </button>
           </div>
         </div>

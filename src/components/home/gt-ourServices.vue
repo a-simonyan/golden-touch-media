@@ -1,5 +1,5 @@
 <template>
-  <div class="services-container">
+  <div class="services-container" id="services">
     <div class="services-container__content">
       <div class="services-container__content--title">
         <img
@@ -7,7 +7,7 @@
           src="@/assets/icons/play-music-icon.svg"
           alt="play"
         />
-        <div class="services-container__content--title-name">Our Services</div>
+        <div  class="services-container__content--title-name">Our Services</div>
         <img
           class="services-container__content--play second"
           src="@/assets/icons/play-music-icon.svg"
@@ -15,7 +15,10 @@
         />
       </div>
       <div class="services-container__content--services">
-        <div class="services-container__content--services-column">
+        <div
+          id="production"
+          class="services-container__content--services-column"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/production.svg" alt="prod" />
           </div>
@@ -36,7 +39,10 @@
             >
           </div>
         </div>
-        <div class="services-container__content--services-column">
+        <div
+          id="processed"
+          class="services-container__content--services-column"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/processed.svg" alt="procesed" />
           </div>
@@ -55,7 +61,10 @@
             >
           </div>
         </div>
-        <div class="services-container__content--services-column">
+        <div
+          id="finished-work"
+          class="services-container__content--services-column"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/finished.svg" alt="finish" />
           </div>
@@ -187,6 +196,7 @@
         flex-direction: column;
         align-items: center;
         width: 33.3%;
+
         @media screen and (max-width: 1024px) {
           width: 100% !important;
         }

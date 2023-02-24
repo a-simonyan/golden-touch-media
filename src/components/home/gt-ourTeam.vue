@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="our-team">
     <div class="container__line">
       <img src="@/assets/icons/line.svg" alt="line" />
     </div>

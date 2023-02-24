@@ -18,9 +18,11 @@
         <vueper-slides
           :dragging-distance="20"
           :preventYScroll="true"
+          :touchable="false"
           :infinite="false"
           class="no-shadow"
           :fixed-height="true"
+        
         >
           <template #arrow-left>
             <img src="@/assets/icons/arrow-left.svg" alt="" class="arrows" />
