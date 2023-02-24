@@ -15,7 +15,13 @@
         />
       </div>
       <div class="container__content--carousel">
-        <vueper-slides :dragging-distance="20" :preventYScroll="true" :infinite="false" class="no-shadow" :fixed-height="true">
+        <vueper-slides
+          :dragging-distance="20"
+          :preventYScroll="true"
+          :infinite="false"
+          class="no-shadow"
+          :fixed-height="true"
+        >
           <template #arrow-left>
             <img src="@/assets/icons/arrow-left.svg" alt="" class="arrows" />
           </template>
@@ -132,7 +138,9 @@ const sliders = ref([
         }
         @media screen and (max-width: 880px) {
           gap: 36px;
-          flex-direction: column-reverse;
+        }
+        @media screen and (max-width: 550px) {
+          gap: 20px;
         }
       }
       &-text {
@@ -273,6 +281,9 @@ const sliders = ref([
           padding: 0;
           margin: 0 auto 40px;
         }
+        @media screen and (max-width: 550px) {
+          margin: 0 auto 20px;
+        }
       }
       &-name {
         font-style: normal;
@@ -373,7 +384,7 @@ const sliders = ref([
     height: 880px !important;
   }
   @media screen and (max-width: 550px) {
-    height: 745px !important;
+    height: 665px !important;
   }
 }
 ::-webkit-scrollbar-thumb {
