@@ -1,5 +1,5 @@
 <template>
-  <div class="services-container" id="services">
+  <div class="services-container">
     <div class="services-container__content">
       <div class="services-container__content--title">
         <img
@@ -7,7 +7,7 @@
           src="@/assets/icons/play-music-icon.svg"
           alt="play"
         />
-        <div  class="services-container__content--title-name">Our Services</div>
+        <div id ="services" class="services-container__content--title-name">Our Services</div>
         <img
           class="services-container__content--play second"
           src="@/assets/icons/play-music-icon.svg"
@@ -15,14 +15,11 @@
         />
       </div>
       <div class="services-container__content--services">
-        <div
-          id="production"
-          class="services-container__content--services-column"
-        >
+        <div class="services-container__content--services-column" id="production">
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/production.svg" alt="prod" />
           </div>
-          <div class="services-container__content--services-name">
+          <div class="services-container__content--services-name" >
             Production
           </div>
           <div class="services-container__content--services-body">
@@ -39,10 +36,7 @@
             >
           </div>
         </div>
-        <div
-          id="processed"
-          class="services-container__content--services-column"
-        >
+        <div class="services-container__content--services-column" id="processed">
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/processed.svg" alt="procesed" />
           </div>
@@ -61,10 +55,7 @@
             >
           </div>
         </div>
-        <div
-          id="finished-work"
-          class="services-container__content--services-column"
-        >
+        <div class="services-container__content--services-column" id="finished-work">
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/finished.svg" alt="finish" />
           </div>
@@ -93,7 +84,6 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style lang="scss" scoped>

@@ -27,7 +27,6 @@
               :teamMember="teamMember"
             />
           </div>
-          <!-- <div class="container__content--body-pseduo-track"></div> -->
         </div>
       </section>
 

@@ -17,17 +17,13 @@
             <div class="footer-container__content--body-title">Company</div>
             <div class="divider"></div>
             <div class="footer-container__content--body-box">
-              <div class="footer-container__content--body-row">
+              <div class="footer-container__content--body-row" @click="scrollIntoItem('our-works')">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>
-                  <a href="#our-works"> Our Works </a>
-                </span>
+                <span> Our Works </span>
               </div>
-              <div class="footer-container__content--body-row">
+              <div class="footer-container__content--body-row" @click="scrollIntoItem('our-team')">
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>
-                  <a href="#our-team"> Our Team </a>
-                </span>
+                <span> Our Team </span>
               </div>
             </div>
           </div>
@@ -38,27 +34,26 @@
             <div class="divider"></div>
 
             <div class="footer-container__content--body-box">
-              <div class="footer-container__content--body-row">
+              <div
+                class="footer-container__content--body-row"
+                @click="scrollIntoItem('production')"
+              >
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>
-                  <a href="#services"> Production </a>
-                </span>
+                <span> Production </span>
               </div>
-              <div class="footer-container__content--body-row">
+              <div
+                class="footer-container__content--body-row"
+                @click="scrollIntoItem('processed')"
+              >
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>
-                  <a :href="windowWidth > 1024 ? '#services' : '#production'">
-                    Processed
-                  </a>
-                </span>
+                <span> Processed </span>
               </div>
-              <div class="footer-container__content--body-row">
+              <div
+                class="footer-container__content--body-row"
+                @click="scrollIntoItem('finished-work')"
+              >
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
-                <span>
-                  <a :href="windowWidth > 1024 ? '#services' : '#processed'">
-                    Finished Work
-                  </a>
-                </span>
+                <span> Finished Work </span>
               </div>
             </div>
           </div>
@@ -113,6 +108,17 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 const windowWidth = ref(null);
+const el = ref(null);
+function scrollIntoItem(param) {
+  console.log(param, "target");
+
+  el.value = document.getElementById(`${param}`).scrollIntoView({
+    behavior: "auto",
+    block: "center",
+    inline: "center",
+  });
+}
+
 onBeforeMount(() => {
   windowWidth.value = window.innerWidth;
   console.log(windowWidth.value, "width");
@@ -320,15 +326,5 @@ onBeforeMount(() => {
   .divider {
     display: block !important;
   }
-}
-a {
-  color: #9c9c9c;
-    text-decoration: none;
-}
-
-a:hover {
-  color: #9c9c9c;
-    text-decoration:none; 
-    cursor:pointer;  
 }
 </style>

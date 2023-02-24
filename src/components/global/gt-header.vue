@@ -17,18 +17,21 @@
       </div>
 
       <div class="nav-container__burger" @click="openBurgerManu">
-        <img
-          v-if="!isOpenBurger"
-          src="@/assets/icons/burger.svg"
-          alt="burger"
-          class="nav-container__burger--icon"
-        />
-        <img
-          v-if="isOpenBurger"
-          src="@/assets/icons/gold-burger.svg"
-          alt="burger"
-          class="nav-container__burger--icon"
-        />
+        <Transition  v-if="!isOpenBurger">
+          <img
+           
+            src="@/assets/icons/burger.svg"
+            alt="burger"
+            class="nav-container__burger--icon"
+          />
+        </Transition>
+        <Transition v-else>
+          <img
+            src="@/assets/icons/gold-burger.svg"
+            alt="burger"
+            class="nav-container__burger--icon"
+          />
+        </Transition>
       </div>
     </div>
     <div class="burger-manu" v-if="isOpenBurger">
