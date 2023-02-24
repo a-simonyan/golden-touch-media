@@ -321,4 +321,14 @@ onBeforeMount(() => {
     display: block !important;
   }
 }
+a {
+  color: #9c9c9c;
+    text-decoration: none;
+}
+
+a:hover {
+  color: #9c9c9c;
+    text-decoration:none; 
+    cursor:pointer;  
+}
 </style>
