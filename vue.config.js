@@ -4,7 +4,8 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        additionalData: `@import "./src/assets/styles/main.scss";`,
+        additionalData: `@import "./src/assets/styles/main.scss";
+          @import 'vue3-carousel/dist/carousel.css';`,
       },
     },
   },

@@ -22,7 +22,10 @@
               ></div>
             </div>
             <div>
-              <button class="hero-container__content--btn-container-order-now">
+              <button
+                class="hero-container__content--btn-container-order-now"
+                @click="comeInOrderPage"
+              >
                 Order Now
               </button>
             </div>
@@ -47,7 +50,11 @@
 </template>
 
 <script setup>
-
+import { useRouter } from "vue-router";
+const router = useRouter();
+const comeInOrderPage = () => {
+  router.push({ path: "/order" });
+};
 </script>
 
 <style lang="scss" scoped>

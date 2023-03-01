@@ -53,6 +53,9 @@
     padding: 100px 120px;
     gap: 67px;
     @media screen and (max-width: 1420px) {
+      padding: 70px 90px;
+    }
+    @media screen and (max-width: 1250px) {
       padding: 70px 50px;
     }
     @media screen and (max-width: 1024px) {

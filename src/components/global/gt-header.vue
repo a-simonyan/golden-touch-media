@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
     <div class="nav-container__box">
-      <div class="nav-container__logo-box">
+      <div class="nav-container__logo-box" @click="comeInHomePage">
         <img
           src="@/assets/logo/general-logo.svg"
           alt="logo"
@@ -9,17 +9,20 @@
         />
       </div>
       <div class="nav-container__content">
-        <div class="nav-container__content--title">HOME</div>
-        <div class="nav-container__content--title">ORDER VIDEO</div>
+        <div class="nav-container__content--title" @click="comeInHomePage">
+          HOME
+        </div>
+        <div class="nav-container__content--title" @click="comeInOrderPage">
+          ORDER VIDEO
+        </div>
         <div class="nav-container__content--title">
           WIN MUSIC VIDEO PRODUCTION
         </div>
       </div>
 
       <div class="nav-container__burger" @click="openBurgerManu">
-        <Transition  v-if="!isOpenBurger">
+        <Transition v-if="!isOpenBurger">
           <img
-           
             src="@/assets/icons/burger.svg"
             alt="burger"
             class="nav-container__burger--icon"
@@ -37,9 +40,13 @@
     <div class="burger-manu" v-if="isOpenBurger">
       <div class="burger-manu__content">
         <div class="burger-manu__content--box">
-          <div class="burger-manu__content--box-name">Home</div>
+          <div class="burger-manu__content--box-name" @click="comeInHomePage">
+            Home
+          </div>
           <div class="burger-manu__content--divider"></div>
-          <div class="burger-manu__content--box-name">Order Video</div>
+          <div class="burger-manu__content--box-name" @click="comeInOrderPage">
+            Order Video
+          </div>
           <div class="burger-manu__content--divider"></div>
           <div class="burger-manu__content--box-name">Lorem Ipsum</div>
           <div class="burger-manu__content--divider"></div>
@@ -50,9 +57,17 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const isOpenBurger = ref(false);
 const openBurgerManu = () => {
   isOpenBurger.value = !isOpenBurger.value;
+};
+const comeInOrderPage = () => {
+  router.push({ path: "/order" });
+};
+const comeInHomePage = () => {
+  router.push({ path: "/" });
 };
 </script>
 <style lang="scss" scoped>
@@ -74,6 +89,7 @@ const openBurgerManu = () => {
     height: 81px;
   }
   &__logo-box {
+    cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
@@ -114,7 +130,11 @@ const openBurgerManu = () => {
     align-items: center;
     justify-content: center;
     width: 100%;
-
+    &--box {
+      &-name {
+        cursor: pointer;
+      }
+    }
     &--title {
       margin: 0 86.5px;
       font-style: normal;

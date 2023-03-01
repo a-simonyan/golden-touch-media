@@ -110,8 +110,6 @@ import { ref, onBeforeMount } from "vue";
 const windowWidth = ref(null);
 const el = ref(null);
 function scrollIntoItem(param) {
-  console.log(param, "target");
-
   el.value = document.getElementById(`${param}`).scrollIntoView({
     behavior: "auto",
     block: "center",
@@ -121,7 +119,6 @@ function scrollIntoItem(param) {
 
 onBeforeMount(() => {
   windowWidth.value = window.innerWidth;
-  console.log(windowWidth.value, "width");
 });
 </script>
 
@@ -197,7 +194,6 @@ onBeforeMount(() => {
           margin-left: 8px;
           @media screen and (max-width: 750px) {
             text-align: center;
-            margin-left: 0px;
           }
         }
       }
