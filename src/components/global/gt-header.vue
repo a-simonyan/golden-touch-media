@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="nav-container__burger" @click="openBurgerManu">
+      <div class="nav-container__burger" @click.stop="openBurgerManu">
         <Transition v-if="!isOpenBurger">
           <img
             src="@/assets/icons/burger.svg"
@@ -39,7 +39,7 @@
     </div>
     <div class="burger-manu" v-if="isOpenBurger">
       <div class="burger-manu__content">
-        <div class="burger-manu__content--box">
+        <div v-click-out-side="closeBurgerMenu" class="burger-manu__content--box">
           <div class="burger-manu__content--box-name" @click="comeInHomePage">
             Home
           </div>
@@ -58,16 +58,24 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { clickOutSide as vClickOutSide } from '@mahdikhashan/vue3-click-outside'
 const router = useRouter();
 const isOpenBurger = ref(false);
 const openBurgerManu = () => {
   isOpenBurger.value = !isOpenBurger.value;
 };
+const closeBurgerMenu = () => {
+  if(isOpenBurger.value) {
+    isOpenBurger.value = false
+  }
+}
 const comeInOrderPage = () => {
   router.push({ path: "/order" });
+  isOpenBurger.value = false;
 };
 const comeInHomePage = () => {
   router.push({ path: "/" });
+  isOpenBurger.value = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -87,6 +95,9 @@ const comeInHomePage = () => {
     justify-content: space-between;
     width: 100%;
     height: 81px;
+    &-name {
+      cursor: pointer;
+    }
   }
   &__logo-box {
     cursor: pointer;
@@ -159,6 +170,7 @@ const comeInHomePage = () => {
     }
   }
   &__burger {
+    cursor: pointer;
     display: none;
     @media screen and (max-width: 1250px) {
       display: block !important;
@@ -219,6 +231,7 @@ const comeInHomePage = () => {
         line-height: 150%;
         color: $silver;
         margin: 12px 0 6px;
+        cursor: pointer;
       }
     }
     &--divider {

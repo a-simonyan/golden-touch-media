@@ -19,7 +19,7 @@
           ref="carouselRef"
           snapAlign="center"
           @update:modelValue="changeActiveItem"
-          :itemsToShow="3"
+          :itemsToShow="showSlides"
         >
           <slide v-for="(slide, index) in sliders" :key="`slide_${index}`">
             <img v-if="slide.img" :src="slide.img" alt="" />
@@ -38,12 +38,13 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import VueSlider from "vue-3-slider-component";
 import { Carousel, Slide } from "vue3-carousel";
 const activeSlide = ref(null);
 const activeItem = ref(0);
 const carouselRef = ref(null);
+const showSlides = ref(window.innerWidth > 880 ? 3 : 1);
 const sliders = ref([
   {
     id: 0,
@@ -79,19 +80,26 @@ const sliders = ref([
   },
 ]);
 
+onMounted(() => {
+  if (window.innerWidth < 880) {
+    sliders.value = sliders.value.filter((slide) => slide.img !== null);
+  }
+});
+
 const changeActiveItem = (e) => {
-  activeSlide.value = (100 / (sliders.value.length - 3)) * (e - 1);
+  activeSlide.value =
+    (100 / (sliders.value.length - showSlides.value)) *
+    (showSlides.value === 1 ? e : e - 1);
   activeItem.value = e;
-  console.log(activeItem.value);
 };
 
 const changeSliderItem = (e) => {
-  const slideStep = 100 / (sliders.value.length - 3);
-  const changingPage = Math.round(e / slideStep) + 1;
+  const slideStep = 100 / (sliders.value.length - showSlides.value);
+  const changingPage =
+    Math.round(e / slideStep) + (showSlides.value === 1 ? 0 : 1);
   if (activeItem.value !== changingPage) {
     carouselRef.value.nav.slideTo(changingPage);
   }
-
 };
 </script>
 
@@ -132,12 +140,17 @@ const changeSliderItem = (e) => {
     }
     &--carousel {
       padding: 100px 0;
-
+      @media screen and (max-width: 880px) {
+        padding: 50px 0;
+      }
+      @media screen and (max-width: 400px) {
+        padding: 0 !important;
+      }
       li {
         width: calc(100% / 3) !important;
         transition: all 500ms;
-        @media screen and (max-width: 1250px) {
-
+        @media screen and (max-width: 880px) {
+          width: 100% !important;
         }
       }
       li:not(.carousel__slide) {
@@ -258,6 +271,23 @@ const changeSliderItem = (e) => {
         @media screen and (max-width: 1250px) {
           height: 300px !important;
         }
+        @media screen and (max-width: 1024px) {
+          height: 210px !important;
+        }
+        @media screen and (max-width: 880px) {
+          height: 360px !important;
+        }
+        @media screen and (max-width: 550px) {
+          height: 250px !important;
+        }
+        @media screen and (max-width: 400px) {
+          height: 175px !important;
+        }
+        img {
+          @media screen and (max-width: 880px) {
+            width: auto;
+          }
+        }
       }
       &--next {
         display: flex;
@@ -273,6 +303,10 @@ const changeSliderItem = (e) => {
           @media screen and (max-width: 1250px) {
             width: 271px !important;
             height: 181px !important;
+          }
+          @media screen and (max-width: 1100px) {
+            width: 240px !important;
+            height: 160px !important;
           }
         }
       }
@@ -291,6 +325,10 @@ const changeSliderItem = (e) => {
             width: 271px !important;
             height: 181px !important;
           }
+          @media screen and (max-width: 1100px) {
+            width: 240px !important;
+            height: 160px !important;
+          }
         }
       }
     }
@@ -300,14 +338,5 @@ const changeSliderItem = (e) => {
     align-items: center;
     justify-content: space-between;
   }
-}
-
-.aaa {
-  width: 100%;
-  height: 100%;
-}
-.bbb {
-  color: green;
-  font-size: 3rem;
 }
 </style>

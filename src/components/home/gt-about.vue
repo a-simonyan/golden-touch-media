@@ -36,7 +36,6 @@
 
 <style lang="scss" scoped>
 .container {
-  padding-top: 120px;
   width: 100%;
   &__title {
     padding: 30px 120px;
