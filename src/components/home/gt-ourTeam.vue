@@ -3,8 +3,11 @@
     <div class="container__line">
       <img src="@/assets/icons/line.svg" alt="line" />
     </div>
-    <div class="container__content">
-      <div class="container__content--title">
+    <div class="container__content" :class="{ padd: showMembers }">
+      <div
+        class="container__content--title"
+        :style="{ paddingRight: showMembers ? 0 : '16px' }"
+      >
         <img
           class="container__content--play"
           src="@/assets/icons/play-music-icon.svg"
@@ -19,7 +22,10 @@
       </div>
       <section>
         <div class="container__content--body scrollbar">
-          <div class="container__content--body-box">
+          <div
+            class="container__content--body-box"
+            :class="{ 'show-members': showMembers }"
+          >
             <gt-team-member
               class="container__content--body-box-member"
               v-for="teamMember in teamMembers"
@@ -31,13 +37,16 @@
       </section>
 
       <div class="container__content--body-view">
-        <div class="container__content--body-vname">View All</div>
+        <div class="container__content--body-vname" @click="showAllTeamMembers">
+          View {{ showMembers ? "Less" : "All" }}
+        </div>
       </div>
     </div>
   </div>
 </template>
   
   <script setup>
+import { ref } from "vue";
 import gtTeamMember from "./gt-teamMember.vue";
 import { reactive } from "vue";
 const teamMembers = reactive([
@@ -66,6 +75,10 @@ const teamMembers = reactive([
     position: "Editing / VFX",
   },
 ]);
+const showMembers = ref(false);
+const showAllTeamMembers = () => {
+  showMembers.value = !showMembers.value;
+};
 </script>
   
 <style lang="scss" scoped>
@@ -170,7 +183,7 @@ const teamMembers = reactive([
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 64px;
+        gap: 48px;
         @media screen and (max-width: 1440px) {
           display: flex;
           padding-bottom: 10px;
@@ -253,5 +266,36 @@ const teamMembers = reactive([
 }
 section {
   width: 100%;
+}
+.show-members {
+  z-index: 999;
+  display: grid;
+  grid-template-columns: repeat(4, 203px);
+  gap: 5%;
+
+  @media screen and (max-width: 1650px) {
+    grid-template-columns: repeat(3, 203px);
+  }
+  @media screen and (max-width: 1250px) {
+  }
+  @media screen and (max-width: 780px) {
+    grid-template-columns: repeat(2, 203px) !important;
+  }
+  @media screen and (max-width: 570px) {
+    grid-template-columns: repeat(1, 203px) !important;
+    gap: 35px;
+    padding-left: calc((100% - 168px) / 2);
+  }
+}
+.view-all {
+  overflow-x: unset !important;
+}
+.padd {
+  @media screen and (max-width: 1024px) {
+    padding-right: 50px !important;
+  }
+  @media screen and (max-width: 550px) {
+    padding-right: 16px !important;
+  }
 }
 </style>

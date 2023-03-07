@@ -17,11 +17,17 @@
             <div class="footer-container__content--body-title">Company</div>
             <div class="divider"></div>
             <div class="footer-container__content--body-box">
-              <div class="footer-container__content--body-row" @click="scrollIntoItem('our-works')">
+              <div
+                class="footer-container__content--body-row"
+                @click="scrollIntoItem('our-works')"
+              >
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
                 <span> Our Works </span>
               </div>
-              <div class="footer-container__content--body-row" @click="scrollIntoItem('our-team')">
+              <div
+                class="footer-container__content--body-row"
+                @click="scrollIntoItem('our-team')"
+              >
                 <img src="@/assets/icons/li-icon.svg" alt="li" class="li" />
                 <span> Our Team </span>
               </div>
@@ -64,7 +70,11 @@
             <div class="footer-container__content--body-box">
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/phone-icon.svg" alt="phone" />
-                <span>+0 123 456 789</span>
+                <span>
+                  <a href="+0 123 456 789" class="phone-number"
+                    >+0 123 456 789</a
+                  >
+                </span>
               </div>
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/message-icon.svg" alt="phone" />
@@ -83,15 +93,25 @@
             <div class="footer-container__content--body-box">
               <div class="footer-container__content--body-social-media">
                 <div class="footer-container__content--body-youtube">
-                  <img src="@/assets/icons/youtube-icon.svg" alt="youtube" />
-                  <span>Youtube</span>
+                  <a
+                    href="https://www.youtube.com/@goldentouchmedia"
+                    target="_blank"
+                  >
+                    <img src="@/assets/icons/youtube-icon.svg" alt="youtube" />
+                    <span>Youtube</span>
+                  </a>
                 </div>
                 <div class="footer-container__content--body-instagram">
-                  <img
-                    src="@/assets/icons/instagram-icon.svg"
-                    alt="instagram"
-                  />
-                  <span>Instagram</span>
+                  <a
+                    href="https://www.instagram.com/goldentouchmedia.no/"
+                    target="_blank"
+                  >
+                    <img
+                      src="@/assets/icons/instagram-icon.svg"
+                      alt="instagram"
+                    />
+                    <span>Instagram</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -160,36 +180,72 @@ onBeforeMount(() => {
       &-youtube {
         display: flex;
         align-items: center;
-        span {
-          display: none;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 13px;
-          line-height: 150%;
-          margin-left: 10px;
-          @media screen and (max-width: 750px) {
-            display: block !important;
+        color: inherit;
+        a {
+          display: flex;
+          text-decoration: none;
+          color: #9c9c9c;
+          &:hover {
+            text-decoration: none;
+            color: inherit;
+          }
+          &:focus {
+            text-decoration: none;
+            color: inherit;
+          }
+          &:active {
+            text-decoration: none;
+            color: inherit;
+          }
+          span {
+            display: none;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 150%;
+            margin-left: 10px;
+            @media screen and (max-width: 750px) {
+              display: block !important;
+            }
           }
         }
       }
       &-instagram {
         display: flex;
         align-items: center;
-        span {
-          display: none;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 13px;
-          line-height: 150%;
-          margin-left: 10px;
-          @media screen and (max-width: 750px) {
-            display: block !important;
+        a {
+          display: flex;
+          text-decoration: none;
+          color: #9c9c9c;
+          &:hover {
+            text-decoration: none;
+            color: inherit;
+          }
+          &:focus {
+            text-decoration: none;
+            color: inherit;
+          }
+          &:active {
+            text-decoration: none;
+            color: inherit;
+          }
+          span {
+            display: none;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 150%;
+            margin-left: 10px;
+            @media screen and (max-width: 750px) {
+              display: block !important;
+            }
           }
         }
       }
       &-row {
         display: flex;
         align-items: center;
+        cursor: pointer;
         span {
           margin-left: 8px;
           @media screen and (max-width: 750px) {
@@ -308,6 +364,10 @@ onBeforeMount(() => {
     width: 236px;
     height: 28px;
   }
+}
+.phone-number {
+  text-decoration: none;
+  color: #9c9c9c;
 }
 .divider {
   display: none;

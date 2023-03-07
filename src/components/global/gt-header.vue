@@ -8,12 +8,37 @@
           class="nav-container__logo-box--logo"
         />
       </div>
-      <div class="nav-container__content">
-        <div class="nav-container__content--title" @click="comeInHomePage">
-          HOME
+      <!-- <div class="lines-cont">
+        <div class="lines-box">
+          <div class="home-line"></div>
+          <div class="order-line"></div>
         </div>
-        <div class="nav-container__content--title" @click="comeInOrderPage">
+      </div> -->
+      <div class="nav-container__content">
+        <div
+          class="nav-container__content--title"
+          :class="{ 'selected-title': isHomePage }"
+          @click="comeInHomePage"
+        >
+          HOME
+          <Transition name="fade" mode="out-in">
+            <div class="line" v-if="isHomePage">
+              <div class="line__row"></div>
+            </div>
+          </Transition>
+        </div>
+        <div
+          class="nav-container__content--title"
+          :class="{ 'selected-title': !isHomePage }"
+          @click="comeInOrderPage"
+        >
           ORDER VIDEO
+
+          <Transition name="fade" mode="out-in">
+            <div class="line" v-if="!isHomePage">
+              <div class="line__row"></div>
+            </div>
+          </Transition>
         </div>
         <div class="nav-container__content--title">
           WIN MUSIC VIDEO PRODUCTION
@@ -37,43 +62,54 @@
         </Transition>
       </div>
     </div>
-    <div class="burger-manu" v-if="isOpenBurger">
-      <div class="burger-manu__content">
-        <div v-click-out-side="closeBurgerMenu" class="burger-manu__content--box">
-          <div class="burger-manu__content--box-name" @click="comeInHomePage">
-            Home
+    <Transition name="fade" mode="out-in">
+      <div class="burger-manu" v-if="isOpenBurger">
+        <div class="burger-manu__content">
+          <div
+            v-click-out-side="closeBurgerMenu"
+            class="burger-manu__content--box"
+          >
+            <div class="burger-manu__content--box-name" @click="comeInHomePage">
+              Home
+            </div>
+            <div class="burger-manu__content--divider"></div>
+            <div
+              class="burger-manu__content--box-name"
+              @click="comeInOrderPage"
+            >
+              Order Video
+            </div>
+            <div class="burger-manu__content--divider"></div>
+            <div class="burger-manu__content--box-name">Lorem Ipsum</div>
+            <div class="burger-manu__content--divider"></div>
           </div>
-          <div class="burger-manu__content--divider"></div>
-          <div class="burger-manu__content--box-name" @click="comeInOrderPage">
-            Order Video
-          </div>
-          <div class="burger-manu__content--divider"></div>
-          <div class="burger-manu__content--box-name">Lorem Ipsum</div>
-          <div class="burger-manu__content--divider"></div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { clickOutSide as vClickOutSide } from '@mahdikhashan/vue3-click-outside'
+import { clickOutSide as vClickOutSide } from "@mahdikhashan/vue3-click-outside";
 const router = useRouter();
 const isOpenBurger = ref(false);
+const isHomePage = ref(true);
 const openBurgerManu = () => {
   isOpenBurger.value = !isOpenBurger.value;
 };
 const closeBurgerMenu = () => {
-  if(isOpenBurger.value) {
-    isOpenBurger.value = false
+  if (isOpenBurger.value) {
+    isOpenBurger.value = false;
   }
-}
+};
 const comeInOrderPage = () => {
+  isHomePage.value = false;
   router.push({ path: "/order" });
   isOpenBurger.value = false;
 };
 const comeInHomePage = () => {
+  isHomePage.value = true;
   router.push({ path: "/" });
   isOpenBurger.value = false;
 };
@@ -240,5 +276,34 @@ const comeInHomePage = () => {
       border-bottom: 1px solid $gold;
     }
   }
+}
+.line {
+  position: relative;
+  width: 100%;
+
+  &__row {
+    position: absolute;
+    height: 3px;
+    width: calc(100% + 29px);
+    background-color: $gold;
+    top: 28px;
+    left: -13px;
+  }
+}
+.selected-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: $gold;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

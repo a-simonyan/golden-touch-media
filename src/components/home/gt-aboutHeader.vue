@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="hero-section">
     <div class="container__content">
       <div class="container__content--title">Ready for a Video?</div>
       <div class="container__content--text">

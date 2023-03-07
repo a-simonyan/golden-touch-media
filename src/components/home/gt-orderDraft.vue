@@ -9,8 +9,15 @@
           concept, the agreement is written and signed and we start the work.
         </div>
       </div>
+
       <div class="container__content--body">
-        <div class="dropdown" v-click-out-side="closeDropdown">
+        <div
+          class="dropdown"
+          :class="{
+            'select-dropdown': isSelectedDropdown,
+            error: !validDropdown,
+          }"
+        >
           <input
             type="checkbox"
             class="dropdown__switch"
@@ -18,12 +25,24 @@
             hidden
           />
           <label for="filter-switch" class="dropdown__options-filter">
-            <ul class="dropdown__filter" role="listbox" tabindex="-1">
+            <ul
+              class="dropdown__filter"
+              role="listbox"
+              tabindex="-1"
+              :class="{ selected: isSelectedDropdown }"
+              @click="dropdownSelected"
+            >
               <li class="dropdown__filter-selected" aria-selected="true">
                 <span v-if="activeType.id" class="active-value">
                   {{ activeType.label }}
                 </span>
-                <span v-else class="placeholder"> Select Video Type </span>
+                <span
+                  v-else
+                  class="placeholder"
+                  :class="{ 'select-dropdown': isSelectedDropdown }"
+                >
+                  Select Video Type
+                </span>
               </li>
               <li>
                 <ul class="dropdown__select">
@@ -42,15 +61,20 @@
             </ul>
           </label>
         </div>
+        <span v-if="!validDropdown" class="error-message">{{
+          dropdownErrorMessage
+        }}</span>
         <div class="container__content--body-data">
           <gt-input
             v-for="(input, index) in inputs"
             :key="index"
+            v-model="data[input.name]"
             :placeholder="input.placeholder"
+            :validation="v$[input.name].$silentErrors"
           />
         </div>
         <div class="container__content--body-deadline">
-          <gt-input placeholder="Maximum Budget" />
+          <gt-input placeholder="Maximum Budget" type="number" />
           <v-date-picker :popover="{ placement: 'bottom-end' }" v-model="date">
             <template v-slot="{ inputValue, togglePopover }">
               <div @click="togglePopover()" class="datepicker-container">
@@ -93,84 +117,169 @@
         <div class="container__content--submit-btn">
           <div class="container__content--submit-left"></div>
           <button class="container__content--submit-request">
-            <span class="container__content--submit-name">Request Quote</span>
+            <span class="container__content--submit-name" @click="order"
+              >Request Quote</span
+            >
           </button>
           <div class="container__content--submit-right"></div>
         </div>
       </div>
     </div>
+    <gt-modal :width="modalWidth" v-model="showModal">
+      <template #modalContent>
+        <component :is="activeType.component" />
+      </template>
+    </gt-modal>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, computed } from "vue";
 import gtInput from "@/components/home/gt-input.vue";
-import { clickOutSide as vClickOutSide } from "@mahdikhashan/vue3-click-outside";
+import gtModal from "@/components/global/gt-modal.vue";
+import musicVideo from "@/components/modals/music-video.vue";
+import educationalVideo from "@/components/modals/educational-video.vue";
+import productVideo from "@/components/modals/product-video.vue";
+import otherVideo from "@/components/modals/other-video.vue";
+import weddingVideo from "@/components/modals/wedding-video.vue";
+import { useVuelidate } from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
 
 const mincost = ref(0);
 const date = ref(null);
+const data = reactive({
+  // videoType: {
+  //   musicVideo: {
+  //     link: {
+  //       songLink: "",
+  //       artist: "",
+  //     },
+  //     upload: {
+  //       file: "",
+  //       artist,
+  //     },
+  //   },
+  //   educationalFilm: {
+  //     companyName: "",
+  //   },
+  //   advProductVideo: {
+  //     productName: "",
+  //     companyName: "",
+  //   },
+  //   weddingVideo:{
+  //     otherServices:[],
+  //     guests: null
+  //   } ,
+  //   other:{
+  //     name: ''
+  //   }
+  // },
+  firstName: "",
+  lastName: "",
+  email: "",
+  // date: "",
+  // maxBudget: "",
+  // description: "",
+});
+const validDropdown = ref(true);
+const dropdownErrorMessage = ref(
+  "You must select a type of video to submit the form."
+);
 const activeType = ref({});
+const isSelectedDropdown = ref(false);
+const showModal = ref(false);
+const modalWidth = ref(900);
 const videoTipes = ref([
   {
     id: 1,
     label: "Music Video",
+    component: musicVideo,
   },
   {
     id: 2,
     label: "Educational Film",
+    component: educationalVideo,
   },
   {
     id: 3,
     label: "Advertising / Product Video",
+    component: productVideo,
   },
-  {
-    id: 4,
-    label: "Interview / Portrait Video",
-  },
+
   {
     id: 5,
     label: "Wedding Video",
+    component: weddingVideo,
   },
   {
     id: 6,
     label: "Other",
+    component: otherVideo,
   },
 ]);
 const inputs = ref([
   {
     id: 1,
     placeholder: "First Name*",
+    name: "firstName",
   },
   {
     id: 2,
     placeholder: "Last Name*",
+    name: "lastName",
   },
   {
     id: 3,
-    placeholder: "Last Name*",
+    placeholder: "Email*",
+    name: "email",
   },
 ]);
-const closeDropdown = () => {
-  document.addEventListener("click", (e) => {
-    const toggle = document.querySelector(".dropdown__switch");
-    const element = e.target;
-    if (element == toggle) return;
-    const isDropdownChild = element.closest(".dropdown__filter");
-    if (!isDropdownChild) {
-      toggle.checked = false;
-    }
-  });
+
+const rules = computed(() => ({
+  firstName: { required },
+  lastName: { required },
+  email: { required, email },
+}));
+
+const v$ = useVuelidate(rules, data);
+
+const order = () => {
+  if (!activeType.value.component) {
+    validDropdown.value = false;
+  } else {
+    validDropdown.value = true;
+  }
+};
+
+const dropdownSelected = () => {
+  isSelectedDropdown.value = !isSelectedDropdown.value;
 };
 const selectDropdown = (type) => {
+  validDropdown.value = false;
   if (activeType.value.id !== type?.id) {
     activeType.value = type;
+    showModal.value = true;
+    validDropdown.value = true;
   } else {
     activeType.value = {};
+    validDropdown.value = false;
   }
+  const body = document.getElementsByTagName("body")[0];
+  body.style.overflowY = "hidden";
 };
 </script>
 
 <style lang="scss" scoped>
+.selected {
+  border-width: 1px 1px 0px 1px;
+  border-style: solid;
+  border-color: #d8be69;
+  color: $gold !important;
+}
+.select-dropdown {
+  border: none !important;
+  color: $gold !important;
+}
 .container {
   width: 100%;
   &__content {
@@ -178,6 +287,7 @@ const selectDropdown = (type) => {
     flex-direction: column;
     justify-content: center;
     &--body {
+      z-index: 999;
       padding: 0px 235px;
       @media screen and (max-width: 1725px) {
         padding: 0 175px;
@@ -187,6 +297,9 @@ const selectDropdown = (type) => {
       }
       @media screen and (max-width: 1250px) {
         padding: 0 50px;
+      }
+      @media screen and (max-width: 550px) {
+        padding: 0 16px;
       }
       &-data {
         display: grid;
@@ -222,6 +335,16 @@ const selectDropdown = (type) => {
           font-size: 20px;
           line-height: 150%;
           color: $silver;
+          @media screen and (max-width: 1750px) {
+            font-size: 16px;
+            line-height: 150%;
+          }
+          @media screen and (max-width: 1250px) {
+          }
+          @media screen and (max-width: 550px) {
+            font-size: 12px;
+            line-height: 150%;
+          }
         }
         span {
           font-style: normal;
@@ -229,6 +352,10 @@ const selectDropdown = (type) => {
           font-size: 14px;
           line-height: 150%;
           color: #575757;
+          @media screen and (max-width: 550px) {
+            font-size: 12px;
+            line-height: 150%;
+          }
         }
       }
     }
@@ -284,6 +411,9 @@ const selectDropdown = (type) => {
       align-items: center;
       justify-content: center;
       padding: 82px 50px;
+      @media screen and (max-width: 1250px) {
+        padding: 50px;
+      }
       &-left {
         width: 93px;
         height: 48px;
@@ -292,6 +422,11 @@ const selectDropdown = (type) => {
         position: absolute;
         left: 0;
         top: 0;
+
+        @media screen and (max-width: 1250px) {
+          width: 35px;
+          height: 35px;
+        }
       }
       &-right {
         width: 93px;
@@ -301,6 +436,11 @@ const selectDropdown = (type) => {
         position: absolute;
         right: 0;
         bottom: 0;
+
+        @media screen and (max-width: 1250px) {
+          width: 35px;
+          height: 35px;
+        }
       }
       &-btn {
         position: relative;
@@ -309,6 +449,14 @@ const selectDropdown = (type) => {
         justify-content: center;
         width: 304px;
         height: 89px;
+        @media screen and (max-width: 1250px) {
+          width: 221px;
+          height: 68px;
+        }
+        @media screen and (max-width: 550px) {
+          width: 152px;
+          height: 59px;
+        }
       }
       &-request {
         width: 261px;
@@ -316,6 +464,14 @@ const selectDropdown = (type) => {
         outline: inherit;
         border: none;
         background-color: $gold;
+        @media screen and (max-width: 1250px) {
+          width: 190px;
+          height: 43px;
+        }
+        @media screen and (max-width: 550px) {
+          width: 132px;
+          height: 39px;
+        }
       }
       &-name {
         font-style: normal;
@@ -325,11 +481,21 @@ const selectDropdown = (type) => {
         display: flex;
         align-items: center;
         justify-content: center;
+        color: #171717 !important;
+        @media screen and (max-width: 1250px) {
+          font-size: 16px;
+          line-height: 150%;
+        }
+        @media screen and (max-width: 550px) {
+          font-size: 13px;
+          line-height: 150%;
+        }
       }
     }
   }
 }
 .datepicker-container {
+  cursor: pointer;
   display: flex;
   padding-left: 34px;
   align-items: center;
@@ -340,10 +506,38 @@ const selectDropdown = (type) => {
   backdrop-filter: blur(25px);
   width: 100%;
   position: relative;
+  @media screen and (max-width: 1750px) {
+    height: 56px !important;
+    padding-left: 20px;
+  }
+  @media screen and (max-width: 1250px) {
+    height: 48px !important;
+  }
+  @media screen and (max-width: 550px) {
+    height: 38px !important;
+    padding-left: 14px;
+  }
+
   &--icon {
     position: absolute;
     top: 17px;
     right: 30px;
+    cursor: pointer;
+    @media screen and (max-width: 1750px) {
+      top: 15px;
+      right: 25px;
+      width: 20px;
+    }
+    @media screen and (max-width: 1250px) {
+      top: 12px;
+      right: 25px;
+      width: 15px;
+    }
+    @media screen and (max-width: 550px) {
+      top: 10px;
+      right: 15px;
+      width: 12px;
+    }
   }
   &--placeholder {
     font-style: normal;
@@ -351,6 +545,15 @@ const selectDropdown = (type) => {
     font-size: 20px;
     line-height: 150%;
     color: #5f5f5f;
+    @media screen and (max-width: 1750px) {
+      font-size: 16px;
+      line-height: 150%;
+    }
+
+    @media screen and (max-width: 550px) {
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
   &--value {
     font-style: normal;
@@ -372,6 +575,13 @@ const selectDropdown = (type) => {
   line-height: 150%;
   background: rgba(31, 31, 31, 0.65);
   border: 1px solid rgba(168, 168, 168, 0.99);
+  border-radius: 0 !important;
+  @media screen and (max-width: 1750px) {
+    padding: 20px 20px;
+  }
+  @media screen and (max-width: 550px) {
+    padding-left: 14px !important;
+  }
 }
 .gt-textarea:focus {
   outline: none;
@@ -383,19 +593,45 @@ const selectDropdown = (type) => {
   font-weight: 600;
   font-size: 20px;
   line-height: 150%;
+  @media screen and (max-width: 1750px) {
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  @media screen and (max-width: 550px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 .mincost {
   width: 100%;
   height: 62px;
   background: none;
-  border: none;
+  border: none !important;
   border-bottom: 1px solid rgba(168, 168, 168, 0.99) !important;
+  border-radius: 0 !important;
   padding-left: 5px;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 150%;
   color: #5f5f5f;
+
+  @media screen and (max-width: 1750px) {
+    font-size: 18px;
+    line-height: 150%;
+    height: 56px !important;
+  }
+  @media screen and (max-width: 1250px) {
+    height: 48px !important;
+    font-size: 16px;
+    line-height: 150%;
+  }
+  @media screen and (max-width: 550px) {
+    height: 38px !important;
+    font-size: 15px;
+    line-height: 150%;
+  }
 }
 .mincost:focus {
   outline: none;
@@ -442,7 +678,15 @@ $tablet: 100%;
     display: flex;
     width: 100%;
     transition: 0.3s;
-
+    @media screen and (max-width: 1750px) {
+      height: 56px !important;
+    }
+    @media screen and (max-width: 1250px) {
+      height: 48px !important;
+    }
+    @media screen and (max-width: 550px) {
+      height: 38px !important;
+    }
     &-selected {
       list-style-type: none;
       font-style: normal;
@@ -452,11 +696,36 @@ $tablet: 100%;
       padding: 0px 34px;
       display: flex;
       align-items: center;
+      @media screen and (max-width: 1750px) {
+        padding: 0px 20px;
+      }
+      @media screen and (max-width: 550px) {
+        padding-left: 14px !important;
+      }
       .active-value {
         color: #e7e7e7;
+        @media screen and (max-width: 1750px) {
+          font-size: 16px;
+        }
+        @media screen and (max-width: 1250px) {
+          font-size: 14px;
+        }
+        @media screen and (max-width: 550px) {
+          font-size: 12px;
+          line-height: 150%;
+        }
       }
       .placeholder {
         color: #5f5f5f;
+        @media screen and (max-width: 1750px) {
+          font-size: 16px;
+          line-height: 150%;
+        }
+
+        @media screen and (max-width: 550px) {
+          font-size: 12px;
+          line-height: 16px;
+        }
       }
       &::after {
         border-width: 1px 1px 0px 1px;
@@ -488,9 +757,8 @@ $tablet: 100%;
     z-index: 99;
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
-    margin-top: 5px;
+    left: -1.5px;
+    width: calc(100% + 2.5px);
     overflow: hidden;
     background: rgba(31, 31, 31, 0.65);
     border-width: 0px 1px 1px 1px;
@@ -500,11 +768,13 @@ $tablet: 100%;
     transform-origin: top;
     font-weight: 300;
     transition: 0.2s ease-in-out;
+    &:focus-visible {
+      border: none !important;
+    }
   }
 
   &__select-option {
     background: #1f1f1f;
-
     border: 0.5px solid #474747;
     font-style: normal;
     font-weight: 600;
@@ -512,8 +782,23 @@ $tablet: 100%;
     line-height: 150%;
     color: $silver;
 
-    padding: 20px;
+    padding: 20px 34px;
     transition: 0.3s;
+
+    @media screen and (max-width: 1750px) {
+      padding: 15px 20px !important;
+      font-size: 16px;
+      line-height: 150%;
+    }
+    @media screen and (max-width: 1250) {
+      font-size: 14px 34px !important;
+      line-height: 150%;
+    }
+    @media screen and (max-width: 550px) {
+      padding: 10px 14px !important;
+      font-size: 12px;
+      line-height: 150%;
+    }
 
     &:last-of-type {
       border-bottom: 0;
@@ -586,5 +871,58 @@ $tablet: 100%;
   .vc-weeks {
     padding-top: 25px !important;
   }
+  .vc-arrow:hover {
+    background-color: #212121;
+  }
+  .vc-nav-popover-container {
+    background-color: #212121;
+    border: 1px solid #d8be69;
+    color: #d9d9d9;
+    border-radius: 0;
+  }
+  .vc-nav-title:hover,
+  .vc-nav-arrow:hover {
+    background-color: #212121;
+  }
+  .vc-nav-item.is-active {
+    border-radius: 0;
+    background-color: #3c392f;
+    border: 1px solid #d8be69;
+    color: #d9d9d9;
+  }
+  .vc-nav-item:hover {
+    background-color: #3c392f;
+    border: 1px solid #d8be69;
+    color: #d9d9d9;
+    border-radius: 0;
+  }
+  .vc-nav-item:focus {
+    border: none !important;
+  }
+  .vc-nav-item.is-current {
+    border: none !important;
+  }
+  .vc-nav-title:focus,
+  .vc-nav-title:focus,
+  .vc-nav-arrow:focus {
+    border: none !important;
+  }
+  .vc-popover-content.direction-top.vc-container {
+    display: block !important;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1.5px solid #d8be69;
+  }
+}
+.error {
+  border: 1px solid #c2041b !important;
+  backdrop-filter: blur(25px) !important;
+}
+.error-message {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #c2041b;
 }
 </style>

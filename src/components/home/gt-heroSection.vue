@@ -1,5 +1,5 @@
 <template>
-  <div class="hero-container">
+  <div class="hero-container" id="hero-section">
     <div class="hero-container__content">
       <div class="hero-container__content--title">
         Professional video services

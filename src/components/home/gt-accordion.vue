@@ -6,15 +6,13 @@
       }}</span>
       <div class="icon">
         <img
-          v-if="!item.isExpand"
-          src="@/assets/icons/plus-icon.svg"
+          :src="
+            require(
+              `../../assets/icons/${!item.isExpand ? 'plus' : 'minus'}-icon.svg`
+            )
+          "
           alt="plus"
-          class="plus-minus"
-        />
-        <img
-          v-else
-          src="@/assets/icons/minus-icon.svg"
-          alt="plus"
+          :id="`accordion-icon-${item.id}`"
           class="plus-minus"
         />
       </div>
@@ -33,6 +31,7 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
 export default {
   data() {
     return {
@@ -79,7 +78,11 @@ export default {
   },
   methods: {
     toggleExpand(item) {
-      item.isExpand = !item.isExpand;
+      const el = document.getElementById(`accordion-icon-${item.id}`);
+      el.style.transform = !item.isExpand ? 'rotate(180deg)' : 'rotate(0deg)'
+      nextTick(() => {
+        item.isExpand = !item.isExpand;
+      })
     },
     getComputedHeight() {
       this.items.forEach((item) => {
@@ -157,6 +160,7 @@ export default {
 .plus-minus {
   width: 22px;
   height: 22px;
+  transition: all 300ms;
 }
 .open-accord {
   font-style: normal;

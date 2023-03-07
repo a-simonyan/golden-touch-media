@@ -20,4 +20,10 @@ import gtOurWorks from "@/components/home/gt-ourWorks.vue";
 import gtTestimonials from "@/components/home/gt-testimonials.vue";
 import gtOurTeam from "@/components/home/gt-ourTeam.vue";
 import gtQuestions from "@/components/home/gt-questions.vue";
+import { onMounted } from "vue";
+onMounted(() => {
+  document
+    .getElementById("hero-section")
+    .scrollIntoView({  block: "end", inline: "nearest" });
+});
 </script>

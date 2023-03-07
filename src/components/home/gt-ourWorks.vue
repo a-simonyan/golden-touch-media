@@ -140,7 +140,7 @@ const changeSliderItem = (e) => {
     }
     &--carousel {
       padding: 100px 0;
-      @media screen and (max-width: 880px) {
+      @media screen and (max-width: 1250px) {
         padding: 50px 0;
       }
       @media screen and (max-width: 400px) {
@@ -181,9 +181,23 @@ const changeSliderItem = (e) => {
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      padding: 100px 120px;
+      @media screen and (max-width: 1750px) {
+        padding: 0 120px;
+      }
+      @media screen and (max-width: 1420px) {
+        padding: 0 90px;
+      }
+      @media screen and (max-width: 1250px) {
+        padding: 0 50px;
+      }
       @media screen and (max-width: 1024px) {
         justify-content: center;
       }
+      @media screen and (max-width: 550px) {
+        padding: 0 16px;
+      }
+
       &-name {
         font-style: normal;
         font-weight: 700;

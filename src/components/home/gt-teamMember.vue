@@ -39,6 +39,7 @@ defineProps({
   }
   &__content {
     position: relative;
+    width: 100%;
     &--img {
       width: 372px;
       height: 534px;
