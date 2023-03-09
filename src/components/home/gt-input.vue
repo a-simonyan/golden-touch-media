@@ -5,7 +5,7 @@
     </div>
     <input
       @input="changeInputValue($event.target.value)"
-      :type="isMusicInput ? 'file' : 'text'"
+      :type="isMusicInput ? 'file' : isNumberType ? 'number' : 'text'"
       class="gt-input"
       :placeholder="props.placeholder"
       :class="{ error: errorMasage }"
@@ -26,10 +26,14 @@ const props = defineProps({
   placeholder: String,
   validation: Object,
   isMusicInput: Boolean,
+  isNumberType: {
+    type: Boolean,
+    default: false,
+  },
   showErrorMessage: {
     type: Boolean,
     default: true,
-  }
+  },
 });
 
 const emits = defineEmits(["update:modelValue"]);

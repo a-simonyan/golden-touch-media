@@ -76,7 +76,7 @@
           />
         </div>
         <div class="container__content--body-deadline">
-          <gt-input placeholder="Maximum Budget" type="number" />
+          <gt-input placeholder="Maximum Budget" :isNumberType="true" />
           <v-date-picker :popover="{ placement: 'bottom-end' }" v-model="date">
             <template v-slot="{ inputValue, togglePopover }">
               <div @click="togglePopover()" class="datepicker-container">

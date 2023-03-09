@@ -1,8 +1,8 @@
 <template>
   <div class="container" id="our-team">
-    <div class="container__line">
+    <!-- <div class="container__line">
       <img src="@/assets/icons/line.svg" alt="line" />
-    </div>
+    </div> -->
     <div class="container__content" :class="{ padd: showMembers }">
       <div
         class="container__content--title"
@@ -270,19 +270,35 @@ section {
 .show-members {
   z-index: 999;
   display: grid;
-  grid-template-columns: repeat(4, 203px);
-  gap: 5%;
+  grid-template-columns: repeat(4, 0fr);
+  gap: 2%;
 
   @media screen and (max-width: 1650px) {
-    grid-template-columns: repeat(3, 203px);
+    grid-template-columns: repeat(3, 0fr);
+    padding: 0 140px;
+    gap: 5%;
+  }
+  @media screen and (max-width:1420px){
+    padding: 0px 120px;
   }
   @media screen and (max-width: 1250px) {
+    padding: 0px 60px;
   }
-  @media screen and (max-width: 780px) {
-    grid-template-columns: repeat(2, 203px) !important;
+  @media screen and (max-width: 900px) {
+    grid-template-columns: repeat(2, 0fr) !important;
+    padding: 0 80px;
   }
-  @media screen and (max-width: 570px) {
-    grid-template-columns: repeat(1, 203px) !important;
+  @media screen and (max-width: 700px) {
+    padding: 0 30px;
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 0fr) !important;
+    gap: 35px;
+    padding-left: calc((100% - 203px) / 2);
+  }
+  @media screen and (max-width: 550px) {
+    grid-template-columns: repeat(1, 0fr) !important;
     gap: 35px;
     padding-left: calc((100% - 168px) / 2);
   }

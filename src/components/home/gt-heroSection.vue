@@ -36,7 +36,10 @@
             </div>
           </div>
           <div class="hero-container__content--btn-container">
-            <button class="hero-container__content--btn-container-our-services">
+            <button
+              class="hero-container__content--btn-container-our-services"
+              @click="goToOurServices('our-services')"
+            >
               <span class="hero-container__content--btn-container-short-title">
                 Read About
               </span>
@@ -54,6 +57,13 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const comeInOrderPage = () => {
   router.push({ path: "/order" });
+};
+const goToOurServices = (param) => {
+  document.getElementById(`${param}`).scrollIntoView({
+    behavior: "auto",
+    block: "center",
+    inline: "center",
+  });
 };
 </script>
 
