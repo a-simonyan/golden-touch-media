@@ -8,6 +8,14 @@
   
   <script setup>
 import gtInput from "../home/gt-input.vue";
+import { onMounted, getCurrentInstance, defineEmits } from "vue";
+const emits = defineEmits([ "updatePrice" ])
+const { proxy } = getCurrentInstance();
+onMounted(() => {
+  proxy.emitter.on("submitModal", () => {
+    emits("updatePrice", 0 )
+  });
+});
 </script>
   
   <style lang="scss" scoped>
@@ -45,7 +53,7 @@ import gtInput from "../home/gt-input.vue";
       line-height: 150%;
     }
     &--content {
-      margin: 40px 0;
+      margin: 40px 0 0;
       display: flex;
       flex-direction: column;
       gap: 40px;

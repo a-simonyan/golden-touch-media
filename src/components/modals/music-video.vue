@@ -22,13 +22,16 @@
           v-for="(input, index) in linkInputs"
           :key="index"
           :placeholder="input.placeholder"
+          v-model="input.model"
         />
       </div>
       <div v-else class="container__header--content-inputs">
         <gt-input
           v-for="(input, index) in uploadInputs"
           :key="index"
+          :isMusicInput="input.id === 1"
           :placeholder="input.placeholder"
+          style="z-index: 999"
         />
         <img src="@/assets/icons/link-icon.svg" alt="link" class="link-icon" />
       </div>
@@ -37,16 +40,20 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, getCurrentInstance, defineEmits } from "vue";
 import gtInput from "../home/gt-input.vue";
+
+const linkUpload = ref(true);
 const linkInputs = ref([
   {
     id: 1,
     placeholder: "Link to the song*",
+    model: "",
   },
   {
     id: 2,
     placeholder: "Artist / Band",
+    model: "",
   },
 ]);
 const uploadInputs = ref([
@@ -59,7 +66,18 @@ const uploadInputs = ref([
     placeholder: "Artist / Band",
   },
 ]);
-const linkUpload = ref(true);
+
+const emits = defineEmits(["updatePrice"]);
+const { proxy } = getCurrentInstance();
+
+onMounted(() => {
+  proxy.emitter.on("submitModal", () => {
+    emits("updatePrice", {
+      price: 10000,
+      data: linkUpload.value ? linkInputs.value : uploadInputs.value,
+    });
+  });
+});
 </script>
 
 <style lang="scss" scoped>
@@ -118,7 +136,7 @@ const linkUpload = ref(true);
       }
     }
     &--content {
-      margin: 40px 0;
+      margin: 40px 0 0;
       @media screen and (max-width: 1250px) {
         margin: 30px 0;
       }
@@ -128,11 +146,8 @@ const linkUpload = ref(true);
       &-inputs {
         display: flex;
         flex-direction: column;
-        gap: 40px;
         position: relative;
-        @media screen and (max-width: 550px) {
-          gap: 20px;
-        }
+        z-index: 999;
       }
     }
   }

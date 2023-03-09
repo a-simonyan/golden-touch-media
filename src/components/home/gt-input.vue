@@ -1,14 +1,19 @@
 <template>
   <div class="container">
-
+    <div v-if="isMusicInput" class="choose-file">
+      <span class="choose-file__placeholder"> Choose File* </span>
+    </div>
     <input
       @input="changeInputValue($event.target.value)"
-      type="text"
+      :type="isMusicInput ? 'file' : 'text'"
       class="gt-input"
       :placeholder="props.placeholder"
       :class="{ error: errorMasage }"
+      accept=".mp3"
     />
-    <span v-if="validation" class="error-message">{{ errorMasage }}</span>
+    <div v-if="props.showErrorMessage" class="error-container">
+      <span v-if="validation" class="error-message">{{ errorMasage }}</span>
+    </div>
   </div>
 </template>
 
@@ -20,6 +25,11 @@ const errorMasage = ref(null);
 const props = defineProps({
   placeholder: String,
   validation: Object,
+  isMusicInput: Boolean,
+  showErrorMessage: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -40,6 +50,12 @@ const changeInputValue = (v) => {
 .container {
   display: flex;
   flex-direction: column;
+}
+.gt-input[type="file"] {
+  text-indent: -999em;
+  outline: none;
+  width: 100%;
+  height: 62px;
 }
 .gt-input {
   height: 62px;
@@ -96,6 +112,32 @@ const changeInputValue = (v) => {
   @media screen and (max-width: 550px) {
     font-size: 12px;
     line-height: 150%;
+  }
+}
+.error-container {
+  height: 20px;
+  margin-bottom: 28px;
+}
+.choose-file {
+  position: relative;
+  &__placeholder {
+    position: absolute;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    color: #797979;
+    left: 22px;
+    top: 15px;
+    @media screen and (max-width: 1250px) {
+      font-size: 16px;
+      top: 13px;
+    }
+    @media screen and (max-width: 550px) {
+      font-size: 12px;
+      line-height: 150%;
+      left: 16px;
+    }
   }
 }
 </style>

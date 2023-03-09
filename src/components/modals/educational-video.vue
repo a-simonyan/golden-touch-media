@@ -1,13 +1,22 @@
 <template>
   <div class="conatainer">
     <div class="container__header--content">
-      <gt-input placeholder="Company Name" />
+      <gt-input placeholder="Company Name" v-model="compName" />
     </div>
   </div>
 </template>
   
   <script setup>
 import gtInput from "../home/gt-input.vue";
+import { ref, onMounted, getCurrentInstance, defineEmits } from "vue";
+const compName = ref("");
+const emits = defineEmits(["updatePrice"]);
+const { proxy } = getCurrentInstance();
+onMounted(() => {
+  proxy.emitter.on("submitModal", () => {
+    emits("updatePrice", { price: 20000, data: compName.value });
+  });
+});
 </script>
   
   <style lang="scss" scoped>
@@ -45,7 +54,7 @@ import gtInput from "../home/gt-input.vue";
       line-height: 150%;
     }
     &--content {
-      margin: 40px 0;
+      margin: 40px 0 0;
       display: flex;
       flex-direction: column;
       gap: 40px;

@@ -18,7 +18,7 @@
               Close
             </button>
             <button
-              @click="closeModal"
+              @click="confirm"
               class="modal__container--actions-confirm-btn"
             >
               Confirm
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, getCurrentInstance, onMounted } from "vue";
 const props = defineProps({
   modelValue: Boolean,
   width: {
@@ -41,12 +41,22 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["update:modelValue"]);
+const { proxy } = getCurrentInstance();
 
+const confirm = () => {
+  proxy.emitter.emit("submitModal");
+};
 const closeModal = () => {
   emits("update:modelValue", false);
   const body = document.getElementsByTagName("body")[0];
   body.style.overflowY = "auto";
 };
+
+onMounted(() => {
+  proxy.emitter.on("closeDialog", () => {
+    closeModal();
+  });
+});
 </script>
 
 

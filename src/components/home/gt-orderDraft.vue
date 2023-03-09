@@ -61,9 +61,11 @@
             </ul>
           </label>
         </div>
-        <span v-if="!validDropdown" class="error-message">{{
-          dropdownErrorMessage
-        }}</span>
+        <div class="error-container">
+          <span v-if="!validDropdown" class="error-message">{{
+            dropdownErrorMessage
+          }}</span>
+        </div>
         <div class="container__content--body-data">
           <gt-input
             v-for="(input, index) in inputs"
@@ -116,7 +118,11 @@
       <div class="container__content--submit">
         <div class="container__content--submit-btn">
           <div class="container__content--submit-left"></div>
-          <button class="container__content--submit-request">
+          <button
+            :disabled="isDisabled"
+            class="container__content--submit-request"
+            :class="{ 'disabled-btn': isDisabled }"
+          >
             <span class="container__content--submit-name" @click="order"
               >Request Quote</span
             >
@@ -125,16 +131,16 @@
         </div>
       </div>
     </div>
-    <gt-modal :width="modalWidth" v-model="showModal">
+    <gt-modal ref="customModal" :width="modalWidth" v-model="showModal">
       <template #modalContent>
-        <component :is="activeType.component" />
+        <component @updatePrice="updatePrice" :is="activeType.component" />
       </template>
     </gt-modal>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, getCurrentInstance } from "vue";
 import gtInput from "@/components/home/gt-input.vue";
 import gtModal from "@/components/global/gt-modal.vue";
 import musicVideo from "@/components/modals/music-video.vue";
@@ -147,6 +153,7 @@ import { required, email } from "@vuelidate/validators";
 
 const mincost = ref(0);
 const date = ref(null);
+const customModal = ref(null);
 const data = reactive({
   // videoType: {
   //   musicVideo: {
@@ -156,7 +163,7 @@ const data = reactive({
   //     },
   //     upload: {
   //       file: "",
-  //       artist,
+  //       artist: "",
   //     },
   //   },
   //   educationalFilm: {
@@ -177,9 +184,9 @@ const data = reactive({
   firstName: "",
   lastName: "",
   email: "",
-  // date: "",
-  // maxBudget: "",
-  // description: "",
+  date: "",
+  maxBudget: "",
+  description: "",
 });
 const validDropdown = ref(true);
 const dropdownErrorMessage = ref(
@@ -240,8 +247,28 @@ const rules = computed(() => ({
   lastName: { required },
   email: { required, email },
 }));
-
 const v$ = useVuelidate(rules, data);
+
+const isDisabled = computed(() => {
+  let disabled = false;
+  Object.keys(v$.value).forEach((el) => {
+    if (Object.keys(data).includes(el)) {
+      if (v$.value[el].$invalid) {
+        disabled = true;
+      }
+    }
+  });
+  if (!Object.values(activeType.value).length) disabled = true;
+  return disabled;
+});
+
+const { proxy } = getCurrentInstance();
+
+const updatePrice = (res) => {
+  mincost.value = res.price;
+  // console.log(res.data, res.price);
+  proxy.emitter.emit("closeDialog");
+};
 
 const order = () => {
   if (!activeType.value.component) {
@@ -256,16 +283,16 @@ const dropdownSelected = () => {
 };
 const selectDropdown = (type) => {
   validDropdown.value = false;
+  const body = document.getElementsByTagName("body")[0];
   if (activeType.value.id !== type?.id) {
     activeType.value = type;
     showModal.value = true;
     validDropdown.value = true;
+    body.style.overflowY = "hidden";
   } else {
     activeType.value = {};
     validDropdown.value = false;
   }
-  const body = document.getElementsByTagName("body")[0];
-  body.style.overflowY = "hidden";
 };
 </script>
 
@@ -306,26 +333,25 @@ const selectDropdown = (type) => {
         grid-template-columns: repeat(3, 1fr);
         gap: 5%;
         width: 100%;
-        margin-top: 48px;
+        margin-top: 28px;
         @media screen and (max-width: 1250px) {
           display: flex !important;
           flex-direction: column !important;
-          gap: 48px !important;
         }
       }
       &-deadline {
-        margin-top: 48px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 5%;
         @media screen and (max-width: 1250px) {
           display: flex !important;
           flex-direction: column !important;
-          gap: 48px !important;
         }
       }
       &-description {
-        margin-top: 48px;
+        @media screen and (max-width: 1250px) {
+          margin-top: 48px;
+        }
       }
       &-mincost {
         margin-top: 48px;
@@ -459,6 +485,7 @@ const selectDropdown = (type) => {
         }
       }
       &-request {
+        cursor: pointer;
         width: 261px;
         height: 57px;
         outline: inherit;
@@ -924,5 +951,13 @@ $tablet: 100%;
   font-size: 14px;
   line-height: 150%;
   color: #c2041b;
+}
+.error-container {
+  height: 20px;
+}
+.disabled-btn {
+  background-color: #3c392f !important;
+  cursor: default !important;
+  pointer-events: none;
 }
 </style>

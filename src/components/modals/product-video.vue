@@ -2,19 +2,35 @@
   <div class="conatainer">
     <div class="container__header--content">
       <div>
-        <gt-input placeholder="Product Name*" />
+        <gt-input
+          :showErrorMessage="false"
+          placeholder="Product Name*"
+          v-model="prodVideo.prodName"
+        />
         <span class="container__header--content-explanation"
           >Fill in the name of the product, service, brand, etc. for which it is
           to be advertised.</span
         >
       </div>
-      <gt-input placeholder="Company Name" />
+      <gt-input placeholder="Company Name" v-model="prodVideo.compName" />
     </div>
   </div>
 </template>
   
   <script setup>
 import gtInput from "../home/gt-input.vue";
+import {ref, onMounted, getCurrentInstance, defineEmits } from "vue";
+const prodVideo = ref({
+  prodName: '',
+  compName: ''
+})
+const emits = defineEmits(["updatePrice"]);
+const { proxy } = getCurrentInstance();
+onMounted(() => {
+  proxy.emitter.on("submitModal", () => {
+    emits("updatePrice", {price : 30000, data: prodVideo});
+  });
+});
 </script>
   
   <style lang="scss" scoped>
@@ -52,7 +68,7 @@ import gtInput from "../home/gt-input.vue";
       line-height: 150%;
     }
     &--content {
-      margin: 40px 0;
+      margin: 40px 0 0;
       display: flex;
       flex-direction: column;
       gap: 40px;

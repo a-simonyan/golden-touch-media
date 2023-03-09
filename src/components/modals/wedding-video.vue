@@ -24,26 +24,45 @@
           </div>
         </div>
       </div>
-      <gt-input type="number" v-if="checkboxes[1].status" placeholder="Number of guests*" />
+      <gt-input
+        v-model="guestsCount"
+        type="number"
+        v-if="checkboxes[1].status"
+        placeholder="Number of guests*"
+      />
     </div>
   </div>
 </template>
     
     <script setup>
-import { ref } from "vue";
+import { ref, defineEmits, onMounted, getCurrentInstance } from "vue";
 import gtInput from "../home/gt-input.vue";
+const guestsCount = ref(null);
 const checkboxes = ref([
-  { id: 1, name: "The wedding", status: true },
+  { id: 1, name: "The wedding", status: true, price: 90000 },
   {
     id: 2,
     name: "Interview with friends, family, fiancees, etc.",
     status: false,
+    price: 5000,
   },
-  { id: 3, name: "The couple’s preparations", status: false },
-  { id: 4, name: "The party afterwards", status: false },
-  { id: 5, name: "Interview with the couple", status: false },
-  { id: 6, name: "The wedding photo session", status: false },
+  { id: 3, name: "The couple’s preparations", status: false, price: 20000 },
+  { id: 4, name: "The party afterwards", status: false, price: 5000 },
+  { id: 5, name: "Interview with the couple", status: false, price: 20000 },
+  { id: 6, name: "The wedding photo session", status: false, price: 30000 },
 ]);
+const emits = defineEmits(["updatePrice"]);
+const { proxy } = getCurrentInstance();
+onMounted(() => {
+  proxy.emitter.on("submitModal", () => {
+    emits("updatePrice", {
+      price: checkboxes.value
+        .filter((item) => item.status == true)
+        .reduce((n, { price }) => n + price, 0),
+      data: guestsCount,
+    });
+  });
+});
 const changeCheckboxStatus = (index) => {
   checkboxes.value[index].status = !checkboxes.value[index].status;
 };
@@ -96,7 +115,7 @@ const changeCheckboxStatus = (index) => {
       line-height: 150%;
     }
     &--content {
-      margin: 40px 0;
+      margin: 40px 0 0;
       display: flex;
       flex-direction: column;
       gap: 40px;
