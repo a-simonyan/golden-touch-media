@@ -1,19 +1,20 @@
 <template>
   <div class="conatainer">
     <div class="container__header--content">
-      <gt-input placeholder="Company name" />
+      <gt-input placeholder="Company name" v-model="title" />
     </div>
   </div>
 </template>
   
   <script setup>
 import gtInput from "../home/gt-input.vue";
-import { onMounted, getCurrentInstance, defineEmits } from "vue";
-const emits = defineEmits([ "updatePrice" ])
+import { ref, onMounted, getCurrentInstance, defineEmits } from "vue";
+const title = ref("");
+const emits = defineEmits(["updatePrice"]);
 const { proxy } = getCurrentInstance();
 onMounted(() => {
   proxy.emitter.on("submitModal", () => {
-    emits("updatePrice", 0 )
+    emits("updatePrice", { price: 0, data: { otherVideo: title.value } });
   });
 });
 </script>

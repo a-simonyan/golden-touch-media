@@ -76,8 +76,15 @@
           />
         </div>
         <div class="container__content--body-deadline">
-          <gt-input placeholder="Maximum Budget" :isNumberType="true" />
-          <v-date-picker :popover="{ placement: 'bottom-end' }" v-model="date">
+          <gt-input
+            placeholder="Maximum Budget"
+            inputType="number"
+            v-model="data.maxBudget"
+          />
+          <v-date-picker
+            :popover="{ placement: 'bottom-end' }"
+            v-model="data.date"
+          >
             <template v-slot="{ inputValue, togglePopover }">
               <div @click="togglePopover()" class="datepicker-container">
                 <span v-if="inputValue" class="datepicker-container--value">
@@ -101,11 +108,17 @@
             rows="5"
             cols="33"
             class="gt-textarea"
+            v-model="data.description"
           ></textarea>
         </div>
         <div class="container__content--body-mincost">
           <label for="mincost">Expected Minimum Cost in kr</label>
-          <input v-model="mincost" id="mincost" type="text" class="mincost" />
+          <input
+            v-model="data.mincost"
+            id="mincost"
+            type="text"
+            class="mincost"
+          />
           <span
             >This is based on previous projects that are similar, and can vary
             significantly depending on what you want in the video. A complete
@@ -149,44 +162,37 @@ import productVideo from "@/components/modals/product-video.vue";
 import otherVideo from "@/components/modals/other-video.vue";
 import weddingVideo from "@/components/modals/wedding-video.vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, helpers } from "@vuelidate/validators";
 
-const mincost = ref(0);
-const date = ref(null);
 const customModal = ref(null);
 const data = reactive({
-  // videoType: {
-  //   musicVideo: {
-  //     link: {
-  //       songLink: "",
-  //       artist: "",
-  //     },
-  //     upload: {
-  //       file: "",
-  //       artist: "",
-  //     },
-  //   },
-  //   educationalFilm: {
-  //     companyName: "",
-  //   },
-  //   advProductVideo: {
-  //     productName: "",
-  //     companyName: "",
-  //   },
-  //   weddingVideo:{
-  //     otherServices:[],
-  //     guests: null
-  //   } ,
-  //   other:{
-  //     name: ''
-  //   }
-  // },
+  videoType: {
+    musicVideo: {
+      link: [],
+      upload: [],
+    },
+    educationalFilm: {
+      name: "",
+    },
+    advProductVideo: {
+      productName: "",
+      companyName: "",
+    },
+    weddingVideo: {
+      otherServices: null,
+      guests: null,
+    },
+    other: {
+      name: "",
+    },
+  },
   firstName: "",
   lastName: "",
   email: "",
   date: "",
   maxBudget: "",
   description: "",
+  mincost: null,
 });
 const validDropdown = ref(true);
 const dropdownErrorMessage = ref(
@@ -243,9 +249,16 @@ const inputs = ref([
 ]);
 
 const rules = computed(() => ({
-  firstName: { required },
-  lastName: { required },
-  email: { required, email },
+  firstName: {
+    required: helpers.withMessage("First name must be filled in.", required),
+  },
+  lastName: {
+    required: helpers.withMessage("Last name must be filled in.", required),
+  },
+  email: {
+    required: helpers.withMessage("Email address must be filled in.", required),
+    email: helpers.withMessage("Email address is invalid.", email),
+  },
 }));
 const v$ = useVuelidate(rules, data);
 
@@ -265,8 +278,25 @@ const isDisabled = computed(() => {
 const { proxy } = getCurrentInstance();
 
 const updatePrice = (res) => {
-  mincost.value = res.price;
-  // console.log(res.data, res.price);
+  data.mincost = res.price;
+  if (res.checkboxes) {
+    data.videoType.weddingVideo.otherServices = res.checkboxes;
+    data.videoType.weddingVideo.guests = res.data;
+  }
+  if (res.data.linkInputs) {
+    data.videoType.musicVideo.upload = res.data.uploadInputs;
+    data.videoType.musicVideo.link = res.data.linkInputs;
+  }
+  if (res.data.value && res.data.value.compName) {
+    data.videoType.advProductVideo.companyName = res.data.value.compName;
+    data.videoType.advProductVideo.productName = res.data.value.prodName;
+  }
+  if (res.data.educationalVideo) {
+    data.videoType.educationalFilm.name = res.data.educationalVideo;
+  }
+  if (res.data.otherVideo) {
+    data.videoType.other.name = res.data.otherVideo;
+  }
   proxy.emitter.emit("closeDialog");
 };
 

@@ -60,6 +60,7 @@ onMounted(() => {
         .filter((item) => item.status == true)
         .reduce((n, { price }) => n + price, 0),
       data: guestsCount,
+      checkboxes: checkboxes.value
     });
   });
 });

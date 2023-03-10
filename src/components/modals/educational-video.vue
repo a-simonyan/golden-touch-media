@@ -14,7 +14,10 @@ const emits = defineEmits(["updatePrice"]);
 const { proxy } = getCurrentInstance();
 onMounted(() => {
   proxy.emitter.on("submitModal", () => {
-    emits("updatePrice", { price: 20000, data: compName.value });
+    emits("updatePrice", {
+      price: 20000,
+      data: { educationalVideo: compName.value },
+    });
   });
 });
 </script>

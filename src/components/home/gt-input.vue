@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div v-if="isMusicInput" class="choose-file">
+    <div v-if="props.inputType === 'file'" class="choose-file">
       <span class="choose-file__placeholder"> Choose File* </span>
     </div>
     <input
       @input="changeInputValue($event.target.value)"
-      :type="isMusicInput ? 'file' : isNumberType ? 'number' : 'text'"
+      :type="props.inputType"
       class="gt-input"
       :placeholder="props.placeholder"
       :class="{ error: errorMasage }"
@@ -25,15 +25,14 @@ const errorMasage = ref(null);
 const props = defineProps({
   placeholder: String,
   validation: Object,
-  isMusicInput: Boolean,
-  isNumberType: {
-    type: Boolean,
-    default: false,
-  },
   showErrorMessage: {
     type: Boolean,
     default: true,
   },
+  inputType: {
+    type: String,
+    default: "text",
+  }
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -41,7 +40,7 @@ const emits = defineEmits(["update:modelValue"]);
 const changeInputValue = (v) => {
   emits("update:modelValue", v);
   nextTick(() => {
-    if (props.validation.length) {
+    if (props.validation?.length) {
       errorMasage.value = props.validation[0].$message;
     } else {
       errorMasage.value = null;

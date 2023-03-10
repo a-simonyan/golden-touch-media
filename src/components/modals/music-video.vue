@@ -29,9 +29,10 @@
         <gt-input
           v-for="(input, index) in uploadInputs"
           :key="index"
-          :isMusicInput="input.id === 1"
+          :inputType="input.id === 1 ? 'file' : 'text'"
           :placeholder="input.placeholder"
           style="z-index: 999"
+          v-model="input.model"
         />
         <img src="@/assets/icons/link-icon.svg" alt="link" class="link-icon" />
       </div>
@@ -60,10 +61,12 @@ const uploadInputs = ref([
   {
     id: 1,
     placeholder: "Upload File*",
+    model: "",
   },
   {
     id: 2,
     placeholder: "Artist / Band",
+    model: "",
   },
 ]);
 
@@ -74,7 +77,10 @@ onMounted(() => {
   proxy.emitter.on("submitModal", () => {
     emits("updatePrice", {
       price: 10000,
-      data: linkUpload.value ? linkInputs.value : uploadInputs.value,
+      data: {
+        linkInputs: linkInputs.value,
+        uploadInputs: uploadInputs.value,
+      },
     });
   });
 });
