@@ -7,9 +7,9 @@
       <div class="icon">
         <img
           :src="
-            require(
-              `../../assets/icons/${!item.isExpand ? 'plus' : 'minus'}-icon.svg`
-            )
+            require(`../../assets/icons/${
+              !item.isExpand ? 'plus' : 'minus'
+            }-icon.svg`)
           "
           alt="plus"
           :id="`accordion-icon-${item.id}`"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { nextTick } from 'vue';
+import { nextTick } from "vue";
 export default {
   data() {
     return {
@@ -79,10 +79,10 @@ export default {
   methods: {
     toggleExpand(item) {
       const el = document.getElementById(`accordion-icon-${item.id}`);
-      el.style.transform = !item.isExpand ? 'rotate(180deg)' : 'rotate(0deg)'
+      el.style.transform = !item.isExpand ? "rotate(180deg)" : "rotate(0deg)";
       nextTick(() => {
         item.isExpand = !item.isExpand;
-      })
+      });
     },
     getComputedHeight() {
       this.items.forEach((item) => {
@@ -130,7 +130,7 @@ export default {
   color: $silver;
 }
 .card-content {
-  padding: 0 0 25px;
+  margin:  0 0 25px !important;
 }
 .card-header {
   cursor: pointer;

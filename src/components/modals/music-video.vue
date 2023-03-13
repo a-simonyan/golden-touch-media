@@ -144,10 +144,10 @@ onMounted(() => {
     &--content {
       margin: 40px 0 0;
       @media screen and (max-width: 1250px) {
-        margin: 30px 0;
+        margin: 30px 0 0;
       }
       @media screen and (max-width: 550px) {
-        margin: 20px 0;
+        margin: 20px 0 0;
       }
       &-inputs {
         display: flex;

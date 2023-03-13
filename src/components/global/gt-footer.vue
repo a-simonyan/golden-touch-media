@@ -131,7 +131,7 @@ const windowWidth = ref(null);
 const el = ref(null);
 function scrollIntoItem(param) {
   el.value = document.getElementById(`${param}`).scrollIntoView({
-    behavior: "auto",
+    behavior: "smooth",
     block: "center",
     inline: "center",
   });
@@ -246,8 +246,10 @@ onBeforeMount(() => {
         display: flex;
         align-items: center;
         cursor: pointer;
+        img {
+          margin-right: 8px;
+        }
         span {
-          margin-left: 8px;
           @media screen and (max-width: 750px) {
             text-align: center;
           }

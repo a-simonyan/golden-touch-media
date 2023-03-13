@@ -74,11 +74,11 @@ onMounted(() => {
       gap: 40px;
       @media screen and (max-width: 1250px) {
         gap: 20px;
-        margin: 20px 0;
+        margin: 20px 0 0;
       }
       @media screen and (max-width: 550px) {
         gap: 15px;
-        margin: 15px 0;
+        margin: 15px 0 0;
       }
       &-explanation {
         font-style: normal;

@@ -10,6 +10,8 @@
       :placeholder="props.placeholder"
       :class="{ error: errorMasage }"
       accept=".mp3"
+      :inputmode="props.isNumber ? 'numeric' : ''"
+      :pattern="props.isNumber ? '[0-9]*' : ''"
     />
     <div v-if="props.showErrorMessage" class="error-container">
       <span v-if="validation" class="error-message">{{ errorMasage }}</span>
@@ -32,7 +34,10 @@ const props = defineProps({
   inputType: {
     type: String,
     default: "text",
-  }
+  },
+  isNumber: {
+    type: Boolean,
+  },
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -75,14 +80,17 @@ const changeInputValue = (v) => {
 
   @media screen and (max-width: 1750px) {
     height: 56px !important;
+    font-size: 16px;
     padding-left: 20px;
   }
   @media screen and (max-width: 1250px) {
+    font-size: 14px;
     height: 48px !important;
   }
   @media screen and (max-width: 550px) {
     height: 38px !important;
     padding-left: 14px;
+    font-size: 12px;
   }
 }
 .error {
@@ -120,6 +128,10 @@ const changeInputValue = (v) => {
 .error-container {
   height: 20px;
   margin-bottom: 28px;
+  @media screen and (max-width: 1250px) {
+  margin-bottom: 8px;
+
+  }
 }
 .choose-file {
   position: relative;

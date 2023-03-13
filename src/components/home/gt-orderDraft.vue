@@ -80,6 +80,7 @@
             placeholder="Maximum Budget"
             inputType="number"
             v-model="data.maxBudget"
+            :isNumber="isNumber"
           />
           <v-date-picker
             :popover="{ placement: 'bottom-end' }"
@@ -113,7 +114,7 @@
         </div>
         <div class="container__content--body-mincost">
           <label for="mincost">Expected Minimum Cost in kr</label>
-          <input v-model="data.mincost" id="mincost" class="mincost" />
+          <input readonly v-model="data.mincost" id="mincost" class="mincost" />
           <span
             >This is based on previous projects that are similar, and can vary
             significantly depending on what you want in the video. A complete
@@ -122,7 +123,11 @@
           >
         </div>
       </div>
-      <div v-else class="container__content--success">
+      <div
+        v-if="completedOrder"
+        class="container__content--success"
+        id="success"
+      >
         <div class="container__content--success-content">
           <span>
             Thank you for your inquiry. We will send you an offer as soon as we
@@ -155,7 +160,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, getCurrentInstance, onMounted } from "vue";
+import {
+  ref,
+  reactive,
+  computed,
+  getCurrentInstance,
+  onMounted,
+  nextTick,
+} from "vue";
 import gtInput from "@/components/home/gt-input.vue";
 import gtModal from "@/components/global/gt-modal.vue";
 import musicVideo from "@/components/modals/music-video.vue";
@@ -168,6 +180,8 @@ import { required, email, helpers } from "@vuelidate/validators";
 
 const customModal = ref(null);
 const completedOrder = ref(false);
+const isNumber = ref(true);
+
 const data = reactive({
   videoType: {
     musicVideo: {
@@ -310,6 +324,15 @@ const order = () => {
     validDropdown.value = true;
   }
   completedOrder.value = !completedOrder.value;
+  // let el = document.getElementById("success");
+  // console.log("el", el);
+  nextTick(() => {
+    document.getElementById("success").scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  });
   console.log(data, "data");
 };
 
@@ -373,6 +396,7 @@ onMounted(() => {
         width: 100%;
         margin-top: 28px;
         @media screen and (max-width: 1250px) {
+          margin-top: 8px;
           display: flex !important;
           flex-direction: column !important;
         }
@@ -388,11 +412,15 @@ onMounted(() => {
       }
       &-description {
         @media screen and (max-width: 1250px) {
-          margin-top: 48px;
+          margin-top: 28px;
         }
       }
       &-mincost {
         margin-top: 48px;
+        @media screen and (max-width: 1250px) {
+          margin-top: 28px;
+        }
+
         label {
           font-style: normal;
           font-weight: 700;
@@ -403,8 +431,7 @@ onMounted(() => {
             font-size: 16px;
             line-height: 150%;
           }
-          @media screen and (max-width: 1250px) {
-          }
+
           @media screen and (max-width: 550px) {
             font-size: 12px;
             line-height: 150%;
@@ -482,7 +509,7 @@ onMounted(() => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 107px 184px;
+      padding: 80px 140px;
       @media screen and (max-width: 1725px) {
         padding: 70px 140px 40px;
       }
@@ -513,7 +540,7 @@ onMounted(() => {
         font-size: 20px;
         line-height: 160%;
         color: $silver;
-        margin-top: 80px;
+        margin-top: 60px;
         text-align: center;
         @media screen and (max-width: 1725px) {
           font-size: 16px;
@@ -681,9 +708,18 @@ onMounted(() => {
   &--value {
     font-style: normal;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 150%;
     color: #e7e7e7;
+    @media screen and (max-width: 1750px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 1250px) {
+      font-size: 14px;
+    }
+    @media screen and (max-width: 550px) {
+      font-size: 12px;
+    }
   }
 }
 
@@ -701,9 +737,15 @@ onMounted(() => {
   border-radius: 0 !important;
   @media screen and (max-width: 1750px) {
     padding: 20px 20px;
+    font-size: 16px;
+  }
+  @media screen and (max-width: 1750px) {
+    padding: 20px 20px;
+    font-size: 14px;
   }
   @media screen and (max-width: 550px) {
     padding-left: 14px !important;
+    font-size: 12px;
   }
 }
 .gt-textarea:focus {
@@ -739,7 +781,7 @@ onMounted(() => {
   font-size: 20px;
   line-height: 150%;
   color: #5f5f5f;
-
+  margin-bottom: 5px;
   @media screen and (max-width: 1750px) {
     font-size: 18px;
     line-height: 150%;

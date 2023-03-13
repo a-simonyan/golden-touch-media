@@ -29,6 +29,7 @@
         inputType="number"
         v-if="checkboxes[1].status"
         placeholder="Number of guests*"
+        :isNumber="isNumber"
       />
     </div>
   </div>
@@ -38,6 +39,7 @@
 import { ref, defineEmits, onMounted, getCurrentInstance } from "vue";
 import gtInput from "../home/gt-input.vue";
 const guestsCount = ref(null);
+const isNumber = ref(true);
 const checkboxes = ref([
   { id: 1, name: "The wedding", status: true, price: 90000 },
   {
@@ -119,10 +121,10 @@ const changeCheckboxStatus = (index) => {
       margin: 40px 0 0;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 20px;
       user-select: none;
       @media screen and (max-width: 690px) {
-        margin: 20px 0;
+        margin: 20px 0 0;
       }
       &-row {
         display: flex;
@@ -142,6 +144,7 @@ const changeCheckboxStatus = (index) => {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-columns: 400px 650px;
+        margin-bottom: 20px;
         @media screen and (max-width: 860px) {
           grid-template-columns: 250px 800px;
         }
@@ -216,5 +219,4 @@ const changeCheckboxStatus = (index) => {
     line-height: 150%;
   }
 }
-
 </style>

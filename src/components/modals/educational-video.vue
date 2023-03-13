@@ -62,7 +62,7 @@ onMounted(() => {
       flex-direction: column;
       gap: 40px;
       @media screen and (max-width: 690px) {
-        margin: 20px 0;
+        margin: 20px 0 0;
       }
       input {
         width: 100%;
