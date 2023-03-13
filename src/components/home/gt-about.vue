@@ -5,17 +5,14 @@
     </div>
     <div class="container__content">
       <div class="container__content--video">
-        <img
-          src="@/assets/images/hilde.svg"
-          alt="img"
+        <iframe
           class="container__content--video-param"
-        />
-        <!-- <iframe
-          class="container__content--video-param"
-          src="https://www.youtube.com/watch?v=71NYdxMyoYw"
-          width="560" height="315" frameborder="0" allowfullscreen
-        >
-        </iframe> -->
+          title="Visma referanse 2018"
+          src="https://www.youtube.com/embed/71NYdxMyoYw?feature=oembed"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen=""
+          name="fitvid0"
+        ></iframe>
       </div>
       <div class="container__content--about">
         <div class="container__content--about-text">
@@ -67,6 +64,10 @@
     @media screen and (max-width: 600px) {
       font-size: 14px;
       line-height: 150%;
+      padding: 30px 16px;
+    }
+    @media screen and (max-width: 418px) {
+      padding: 16px;
     }
   }
   &__content {

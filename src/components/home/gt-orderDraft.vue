@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      <div class="container__content--body">
+      <div v-if="!completedOrder" class="container__content--body">
         <div
           class="dropdown"
           :class="{
@@ -113,12 +113,7 @@
         </div>
         <div class="container__content--body-mincost">
           <label for="mincost">Expected Minimum Cost in kr</label>
-          <input
-            v-model="data.mincost"
-            id="mincost"
-            type="text"
-            class="mincost"
-          />
+          <input v-model="data.mincost" id="mincost" class="mincost" />
           <span
             >This is based on previous projects that are similar, and can vary
             significantly depending on what you want in the video. A complete
@@ -127,8 +122,15 @@
           >
         </div>
       </div>
-
-      <div class="container__content--submit">
+      <div v-else class="container__content--success">
+        <div class="container__content--success-content">
+          <span>
+            Thank you for your inquiry. We will send you an offer as soon as we
+            have seen this.
+          </span>
+        </div>
+      </div>
+      <div v-if="!completedOrder" class="container__content--submit">
         <div class="container__content--submit-btn">
           <div class="container__content--submit-left"></div>
           <button
@@ -153,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, getCurrentInstance } from "vue";
+import { ref, reactive, computed, getCurrentInstance, onMounted } from "vue";
 import gtInput from "@/components/home/gt-input.vue";
 import gtModal from "@/components/global/gt-modal.vue";
 import musicVideo from "@/components/modals/music-video.vue";
@@ -165,6 +167,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, helpers } from "@vuelidate/validators";
 
 const customModal = ref(null);
+const completedOrder = ref(false);
 const data = reactive({
   videoType: {
     musicVideo: {
@@ -306,6 +309,8 @@ const order = () => {
   } else {
     validDropdown.value = true;
   }
+  completedOrder.value = !completedOrder.value;
+  console.log(data, "data");
 };
 
 const dropdownSelected = () => {
@@ -324,6 +329,9 @@ const selectDropdown = (type) => {
     validDropdown.value = false;
   }
 };
+onMounted(() => {
+  completedOrder.value = false;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -415,6 +423,61 @@ const selectDropdown = (type) => {
         }
       }
     }
+
+    &--success {
+      padding: 0 120px 60px;
+
+      @media screen and (max-width: 1750px) {
+        padding: 0 120px 60px;
+      }
+      @media screen and (max-width: 1420px) {
+        padding: 0 90px 60px;
+      }
+      @media screen and (max-width: 1250px) {
+        padding: 0 50px 60px;
+      }
+      @media screen and (max-width: 550px) {
+        padding: 0 16px 60px;
+      }
+      &-content {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        opacity: 0.8;
+        border: 1px solid rgba(168, 168, 168, 0.99);
+        backdrop-filter: blur(25px);
+        @media screen and (max-width: 1750px) {
+          height: 48px;
+        }
+        @media screen and (max-width: 1250px) {
+          height: 58px;
+        }
+        @media screen and (max-width: 550px) {
+        }
+        span {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 150%;
+          color: #3caa09;
+          @media screen and (max-width: 1750px) {
+            font-size: 16px;
+            line-height: 150%;
+          }
+          @media screen and (max-width: 1250px) {
+            font-size: 14px;
+            line-height: 150%;
+          }
+          @media screen and (max-width: 550px) {
+            font-size: 12px;
+            line-height: 150%;
+          }
+        }
+      }
+    }
     &--header {
       display: flex;
       flex-direction: column;
@@ -424,7 +487,10 @@ const selectDropdown = (type) => {
         padding: 70px 140px 40px;
       }
       @media screen and (max-width: 1250px) {
-        padding: 40px 70px;
+        padding: 40px 50px;
+      }
+      @media screen and (max-width: 550px) {
+        padding: 40px 16px;
       }
       &-title {
         font-style: normal;

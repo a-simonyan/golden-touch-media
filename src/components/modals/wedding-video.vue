@@ -26,7 +26,7 @@
       </div>
       <gt-input
         v-model="guestsCount"
-        type="number"
+        inputType="number"
         v-if="checkboxes[1].status"
         placeholder="Number of guests*"
       />
@@ -60,7 +60,7 @@ onMounted(() => {
         .filter((item) => item.status == true)
         .reduce((n, { price }) => n + price, 0),
       data: guestsCount,
-      checkboxes: checkboxes.value
+      checkboxes: checkboxes.value,
     });
   });
 });
@@ -216,4 +216,5 @@ const changeCheckboxStatus = (index) => {
     line-height: 150%;
   }
 }
+
 </style>
