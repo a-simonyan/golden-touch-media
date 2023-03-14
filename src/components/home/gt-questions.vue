@@ -33,6 +33,7 @@ import gtAccordionVue from "./gt-accordion.vue";
 <style lang="scss" scoped>
 .questions-container {
   width: 100%;
+  height: 100%;
   &__content {
     padding: 100px 120px;
     @media screen and (max-width: 1750px) {

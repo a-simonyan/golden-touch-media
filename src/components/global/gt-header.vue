@@ -8,12 +8,6 @@
           class="nav-container__logo-box--logo"
         />
       </div>
-      <!-- <div class="lines-cont">
-        <div class="lines-box">
-          <div class="home-line"></div>
-          <div class="order-line"></div>
-        </div>
-      </div> -->
       <div class="nav-container__content">
         <div
           class="nav-container__content--title"
@@ -89,10 +83,11 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { nextTick, ref, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { clickOutSide as vClickOutSide } from "@mahdikhashan/vue3-click-outside";
 const router = useRouter();
+const route = useRoute();
 const isOpenBurger = ref(false);
 const isHomePage = ref(true);
 const openBurgerManu = () => {
@@ -111,8 +106,25 @@ const comeInOrderPage = () => {
 const comeInHomePage = () => {
   isHomePage.value = true;
   router.push({ path: "/" });
+  nextTick(() => {
+    document.getElementById("hero-section").scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  });
   isOpenBurger.value = false;
 };
+watch(
+  () => route.name,
+  () => {
+    if (route.name === "home") {
+      isHomePage.value = true;
+    } else {
+      isHomePage.value = false;
+    }
+  }
+);
 </script>
 <style lang="scss" scoped>
 .nav-container {

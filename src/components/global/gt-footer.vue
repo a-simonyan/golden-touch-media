@@ -76,13 +76,22 @@
                   >
                 </span>
               </div>
-              <div class="footer-container__content--body-row">
+              <div
+                class="footer-container__content--body-row"
+                @click="sendEmail"
+              >
                 <img src="@/assets/icons/message-icon.svg" alt="phone" />
                 <span>example@gmail.com</span>
               </div>
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/location-icon.svg" alt="phone" />
-                <span>Lorem ipsum, dolor</span>
+                <span>
+                  <a
+                    href="https://goo.gl/maps/WDqjXZVSX7Cay1Py7"
+                    target="_blank"
+                    >Nygaardsgata 3, Fredrikstad, Norway</a
+                  >
+                </span>
               </div>
             </div>
           </div>
@@ -127,15 +136,22 @@
 
 <script setup>
 import { ref, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const windowWidth = ref(null);
-const el = ref(null);
 function scrollIntoItem(param) {
-  el.value = document.getElementById(`${param}`).scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-    inline: "center",
+  router.push({ path: "/" });
+  setTimeout(() => {
+    document.getElementById(`${param}`).scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
   });
 }
+const sendEmail = () => {
+  location.href = "mailto:example@gmail.com";
+};
 
 onBeforeMount(() => {
   windowWidth.value = window.innerWidth;
@@ -147,7 +163,7 @@ onBeforeMount(() => {
   width: 100%;
   background-color: #212121;
   &__content {
-    padding: 47px 287px 26px;
+    padding: 47px 210px 26px;
     display: flex;
     flex-direction: column;
     @media screen and (max-width: 1850px) {
@@ -204,7 +220,7 @@ onBeforeMount(() => {
             font-size: 13px;
             line-height: 150%;
             margin-left: 10px;
-            @media screen and (max-width: 750px) {
+            @media screen and (max-width: 820px) {
               display: block !important;
             }
           }
@@ -236,7 +252,7 @@ onBeforeMount(() => {
             font-size: 13px;
             line-height: 150%;
             margin-left: 10px;
-            @media screen and (max-width: 750px) {
+            @media screen and (max-width: 820px) {
               display: block !important;
             }
           }
@@ -295,7 +311,7 @@ onBeforeMount(() => {
           font-size: 14px;
           line-height: 150%;
         }
-        @media screen and (max-width: 750px) {
+        @media screen and (max-width: 820px) {
           font-size: 14px;
           line-height: 150%;
           align-items: center;
@@ -307,7 +323,7 @@ onBeforeMount(() => {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 160px;
+      gap: 130px;
       @media screen and (max-width: 1750px) {
         gap: 107px;
       }
@@ -317,7 +333,7 @@ onBeforeMount(() => {
       @media screen and (max-width: 1024px) {
         gap: 60px;
       }
-      @media screen and (max-width: 750px) {
+      @media screen and (max-width: 820px) {
         flex-direction: column;
         align-items: center;
         gap: 20px;
@@ -328,7 +344,7 @@ onBeforeMount(() => {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      @media screen and (max-width: 750px) {
+      @media screen and (max-width: 820px) {
         align-items: center;
       }
     }
@@ -383,6 +399,23 @@ onBeforeMount(() => {
   }
   .divider {
     display: block !important;
+  }
+}
+a {
+  display: flex;
+  text-decoration: none;
+  color: #9c9c9c;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+  &:focus {
+    text-decoration: none;
+    color: inherit;
+  }
+  &:active {
+    text-decoration: none;
+    color: inherit;
   }
 }
 </style>

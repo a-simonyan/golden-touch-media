@@ -94,7 +94,7 @@ const showAllTeamMembers = () => {
     }
     img {
       position: absolute;
-      top: 225px;
+      top: 226px;
       width: 100%;
       @media screen and (max-width: 1850px) {
         top: 50px;
@@ -169,14 +169,14 @@ const showAllTeamMembers = () => {
     }
 
     &--body {
-      padding: 50px 0;
+      padding: 50px 0 ;
       @media screen and (max-width: 1100px) {
         max-width: 100vw;
         overflow-x: scroll;
         position: relative;
         scrollbar-width: thin;
         -ms-overflow-style: none;
-        padding: 50px 0 0 0;
+        // padding: 50px 0 0 0;
       }
 
       &-box {
@@ -209,16 +209,20 @@ const showAllTeamMembers = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 50px;
+        margin-top: 20px;
 
-        @media screen and (max-width: 1850px) {
-          margin-top: 0px;
+        // @media screen and (max-width: 1850px) {
+        //   margin-top: 0px;
+        // }
+        @media screen and (max-width: 1250px) {
+          margin-top: 0 !important;
         }
-        @media screen and (max-width: 1100px) {
-          margin-top: 25px;
-        }
+        // @media screen and (max-width: 750px) {
+        //   margin-top: 30px;
+        // }
       }
       &-vname {
+        cursor: pointer;
         text-decoration-line: underline;
         color: $gold;
         font-style: normal;
@@ -238,6 +242,9 @@ const showAllTeamMembers = () => {
   @media screen and (max-width: 1024px) {
     display: block;
   }
+}
+.scrollbar {
+  overflow-y: hidden;
 }
 .scrollbar::-webkit-scrollbar {
   height: 0px;
@@ -272,17 +279,18 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 0fr);
   gap: 2%;
+  height: 100%;
 
   @media screen and (max-width: 1650px) {
     grid-template-columns: repeat(3, 0fr);
     padding: 0 140px;
     gap: 5%;
   }
-  @media screen and (max-width:1420px){
+  @media screen and (max-width: 1420px) {
     padding: 0px 120px;
   }
   @media screen and (max-width: 1250px) {
-    padding: 0px 60px;
+    padding: 30px 60px;
   }
   @media screen and (max-width: 900px) {
     grid-template-columns: repeat(2, 0fr) !important;

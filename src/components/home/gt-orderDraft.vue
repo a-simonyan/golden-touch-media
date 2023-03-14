@@ -324,8 +324,7 @@ const order = () => {
     validDropdown.value = true;
   }
   completedOrder.value = !completedOrder.value;
-  // let el = document.getElementById("success");
-  // console.log("el", el);
+
   nextTick(() => {
     document.getElementById("success").scrollIntoView({
       behavior: "smooth",

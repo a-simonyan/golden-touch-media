@@ -24,6 +24,6 @@ import { onMounted } from "vue";
 onMounted(() => {
   document
     .getElementById("hero-section")
-    .scrollIntoView({  block: "end", inline: "nearest" });
+    .scrollIntoView({ block: "end", inline: "nearest" });
 });
 </script>

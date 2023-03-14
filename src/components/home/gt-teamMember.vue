@@ -71,15 +71,15 @@ defineProps({
       @media screen and (max-width: 1850px) {
         width: 265px;
         height: 112px;
-        top: 268px;
+        top: 269px;
       }
       @media screen and (max-width: 1440px) {
-        width: 206px;
+        width: 203px;
         height: 92px;
         top: 201px;
       }
       @media screen and (max-width: 550px) {
-        width: 170px;
+        width: 168px;
         height: 75px;
         top: 166px;
       }

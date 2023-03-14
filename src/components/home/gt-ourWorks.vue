@@ -108,7 +108,7 @@ const changeSliderItem = (e) => {
   width: 100%;
   background-color: #212121;
   &__content {
-    padding: 100px 0;
+    padding: 0 0 100px 0;
     @media screen and (max-width: 1750px) {
       padding: 70px 0;
     }
@@ -139,9 +139,12 @@ const changeSliderItem = (e) => {
       }
     }
     &--carousel {
-      padding: 100px 0;
+      padding: 0 0 100px 0;
+      @media screen and (max-width: 1750px) {
+        padding: 70px 0;
+      }
       @media screen and (max-width: 1250px) {
-        padding: 50px 0;
+        padding: 30px 0;
       }
       @media screen and (max-width: 400px) {
         padding: 0 !important;
