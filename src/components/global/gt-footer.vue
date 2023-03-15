@@ -71,8 +71,8 @@
               <div class="footer-container__content--body-row">
                 <img src="@/assets/icons/phone-icon.svg" alt="phone" />
                 <span>
-                  <a href="+0 123 456 789" class="phone-number"
-                    >+0 123 456 789</a
+                  <a href="tel:+47 981 71 263" class="phone-number"
+                    >+47 981 71 263</a
                   >
                 </span>
               </div>
