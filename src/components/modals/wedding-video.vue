@@ -41,7 +41,7 @@ import gtInput from "../home/gt-input.vue";
 const guestsCount = ref(null);
 const isNumber = ref(true);
 const checkboxes = ref([
-  { id: 1, name: "The wedding", status: true, price: 90000 },
+  { id: 1, name: "The wedding", status: false, price: 90000 },
   {
     id: 2,
     name: "Interview with friends, family, fiancees, etc.",
@@ -83,7 +83,7 @@ const changeCheckboxStatus = (index) => {
       font-weight: 600;
       font-size: 22px;
       line-height: 150%;
-      color: #e7e7e7;
+      color: $silver;
     }
   }
   &__header {
@@ -159,7 +159,7 @@ const changeCheckboxStatus = (index) => {
           font-weight: 600;
           font-size: 18px;
           line-height: 150%;
-          color: #e7e7e7;
+          color: $silver;
           @media screen and (max-width: 1750px) {
             font-size: 16px;
             line-height: 150%;
@@ -179,7 +179,7 @@ const changeCheckboxStatus = (index) => {
         border: 1px solid rgba(168, 168, 168, 0.99);
         padding-left: 24px;
         border-radius: 0 !important;
-        color: #e7e7e7;
+        color: $silver;
         font-style: normal;
         font-weight: 600;
         font-size: 18px;

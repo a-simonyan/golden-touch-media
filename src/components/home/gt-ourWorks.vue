@@ -2,15 +2,22 @@
   <div class="container" id="our-works">
     <div class="container__content">
       <div class="container__content--title">
-        <img
-          class="container__content--play"
-          src="@/assets/icons/play-music-icon.svg"
-          alt="play"
-        />
+        <picture>
+          <source
+            media="(min-width:1024px)"
+            srcset="@/assets/icons/play-music-icon.svg"
+          />
+          <img
+            class="container__content--play"
+            src="@/assets/icons/play-music-icon-gradient.svg"
+            alt="play"
+            style="width: auto"
+          />
+        </picture>
         <div class="container__content--title-name">Our Works</div>
         <img
           class="container__content--play second"
-          src="@/assets/icons/play-music-icon.svg"
+          src="@/assets/icons/play-music-icon-gradient-right.svg"
           alt="play"
         />
       </div>
@@ -220,7 +227,7 @@ const changeSliderItem = (e) => {
         }
         @media screen and (max-width: 550px) {
           font-size: 16px;
-          padding: 0 5px;
+          padding: 0 7px;
         }
       }
     }

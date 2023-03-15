@@ -177,6 +177,7 @@ import otherVideo from "@/components/modals/other-video.vue";
 import weddingVideo from "@/components/modals/wedding-video.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, helpers } from "@vuelidate/validators";
+import axios from "axios";
 
 const customModal = ref(null);
 const completedOrder = ref(false);
@@ -189,27 +190,51 @@ const data = reactive({
       upload: [],
     },
     educationalFilm: {
-      name: "",
+      companyName: null,
     },
     advProductVideo: {
-      productName: "",
-      companyName: "",
+      productName: null,
+      companyName: null,
     },
     weddingVideo: {
       otherServices: null,
       guests: null,
     },
     other: {
-      name: "",
+      companyName: null,
     },
   },
-  firstName: "",
-  lastName: "",
-  email: "",
-  date: "",
-  maxBudget: "",
-  description: "",
+  firstName: null,
+  lastName: null,
+  email: null,
+  date: null,
+  maxBudget: null,
+  description: null,
   mincost: null,
+});
+const orderData = ref({
+  type: "",
+  last_name: "",
+  email: "",
+  first_name: "",
+  max_budget: 0,
+  deadline: "",
+  description: "",
+  min_cost: 0,
+  company_name: "",
+  music_file: null,
+  music_link: "",
+  product_name: "",
+  artist_of_band: "",
+  wedding_videos: {
+    wedding: false,
+    couples_preparations: false,
+    couple_interview: false,
+    friends_interview: false,
+    afterwards_party: false,
+    photo_session: false,
+  },
+  number_of_guests: null,
 });
 const validDropdown = ref(true);
 const dropdownErrorMessage = ref(
@@ -295,6 +320,28 @@ const isDisabled = computed(() => {
 const { proxy } = getCurrentInstance();
 
 const updatePrice = (res) => {
+  if (orderData.value.type === "Wedding Video") {
+    orderData.value.wedding_videos.wedding = res.checkboxes
+      ? res.checkboxes[0].status
+      : false;
+    orderData.value.wedding_videos.friends_interview = res.checkboxes
+      ? res.checkboxes[1].status
+      : false;
+    orderData.value.wedding_videos.couples_preparations = res.checkboxes
+      ? res.checkboxes[2].status
+      : false;
+    orderData.value.wedding_videos.afterwards_party = res.checkboxes
+      ? res.checkboxes[3].status
+      : false;
+    orderData.value.wedding_videos.couple_interview = res.checkboxes
+      ? res.checkboxes[4].status
+      : false;
+    orderData.value.wedding_videos.photo_session = res.checkboxes
+      ? res.checkboxes[5].status
+      : false;
+  } else {
+    orderData.value.wedding_videos = null;
+  }
   data.mincost = res.price;
   if (res.checkboxes) {
     data.videoType.weddingVideo.otherServices = res.checkboxes;
@@ -309,10 +356,10 @@ const updatePrice = (res) => {
     data.videoType.advProductVideo.productName = res.data.value.prodName;
   }
   if (res.data.educationalVideo) {
-    data.videoType.educationalFilm.name = res.data.educationalVideo;
+    data.videoType.educationalFilm.companyName = res.data.educationalVideo;
   }
   if (res.data.otherVideo) {
-    data.videoType.other.name = res.data.otherVideo;
+    data.videoType.other.companyName = res.data.otherVideo;
   }
   proxy.emitter.emit("closeDialog");
 };
@@ -323,7 +370,6 @@ const order = () => {
   } else {
     validDropdown.value = true;
   }
-  completedOrder.value = !completedOrder.value;
 
   nextTick(() => {
     document.getElementById("success").scrollIntoView({
@@ -332,13 +378,67 @@ const order = () => {
       inline: "center",
     });
   });
-  console.log(data, "data");
+  orderRequest();
 };
+const orderRequest = () => {
+  orderData.value.last_name = data.lastName;
+  orderData.value.first_name = data.firstName;
+  orderData.value.email = data.email;
+  orderData.value.max_budget = +data.maxBudget;
+  orderData.value.deadline = data.date;
+  orderData.value.description = data.description;
+  orderData.value.min_cost = data.mincost;
+  orderData.value.company_name =
+    orderData.value.type === "Advertising / Product Video"
+      ? data.videoType.advProductVideo.companyName
+      : orderData.value.type === "Educational Film"
+      ? data.videoType.educationalFilm.companyName
+      : data.videoType.other.companyName;
+  orderData.value.music_file = data.videoType.musicVideo?.upload[0]?.model
+    ? data.videoType.musicVideo?.upload[0]?.model
+    : null;
+  orderData.value.music_link = data.videoType.musicVideo?.link[0]?.model
+    ? data.videoType.musicVideo?.link[0]?.model
+    : null;
+  orderData.value.product_name = data.videoType.advProductVideo.productName
+    ? data.videoType.advProductVideo.productName
+    : null;
+  orderData.value.artist_of_band = data.videoType.musicVideo?.upload[0]?.model
+    ? data.videoType.musicVideo?.upload[1]?.model
+    : data.videoType.musicVideo?.link[0]?.model
+    ? data.videoType.musicVideo?.link[1]?.model
+    : null;
+  orderData.value.number_of_guests = data.videoType.weddingVideo.guests
+    ? +data.videoType.weddingVideo.guests
+    : null;
 
+  axios
+    .post(
+      "http://localhost:1337/api/order-videos",
+      {
+        data: JSON.stringify(orderData.value),
+        "files.music_file": orderData.value.music_file,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((res) => {
+      if (res) {
+        completedOrder.value = !completedOrder.value;
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 const dropdownSelected = () => {
   isSelectedDropdown.value = !isSelectedDropdown.value;
 };
 const selectDropdown = (type) => {
+  orderData.value.type = type.label;
   validDropdown.value = false;
   const body = document.getElementsByTagName("body")[0];
   if (activeType.value.id !== type?.id) {
@@ -360,7 +460,7 @@ onMounted(() => {
 .selected {
   border-width: 1px 1px 0px 1px;
   border-style: solid;
-  border-color: #d8be69;
+  border-color: $gold;
   color: $gold !important;
 }
 .select-dropdown {
@@ -374,7 +474,7 @@ onMounted(() => {
     flex-direction: column;
     justify-content: center;
     &--body {
-      z-index: 999;
+      z-index: 99 !important;
       padding: 0px 235px;
       @media screen and (max-width: 1725px) {
         padding: 0 175px;
@@ -709,7 +809,7 @@ onMounted(() => {
     font-weight: 600;
     font-size: 18px;
     line-height: 150%;
-    color: #e7e7e7;
+    color: $silver;
     @media screen and (max-width: 1750px) {
       font-size: 16px;
     }
@@ -829,7 +929,6 @@ $tablet: 100%;
   &__switch:checked + &__options-filter &__filter:after {
     transform: rotate(-135deg);
   }
-
   &__options-filter {
     width: 100%;
     cursor: pointer;
@@ -867,7 +966,7 @@ $tablet: 100%;
         padding-left: 14px !important;
       }
       .active-value {
-        color: #e7e7e7;
+        color: $silver;
         @media screen and (max-width: 1750px) {
           font-size: 16px;
         }
@@ -894,7 +993,7 @@ $tablet: 100%;
       &::after {
         border-width: 1px 1px 0px 1px;
         border-style: solid;
-        border-color: #d8be69;
+        border-color: $gold;
       }
     }
     &:focus {
@@ -903,17 +1002,22 @@ $tablet: 100%;
 
     &::after {
       position: absolute;
-      top: 45%;
+      top: 37%;
       right: 20px;
       content: "";
-      width: 10px;
-      height: 10px;
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid #595959;
-      border-bottom: 2px solid #595959;
+      width: 10px !important;
+      height: 10px !important;
+      border-right: 2px solid $silver;
+      border-bottom: 2px solid $silver;
       transform: rotate(45deg) translateX(-45%);
       transition: 0.2s ease-in-out;
+      @media screen and (max-width: 550px) {
+        right: 15px;
+        width: 7px !important;
+        height: 7px !important;
+        border-right: 1px solid $silver;
+        border-bottom: 1px solid $silver;
+      }
     }
   }
 
@@ -927,7 +1031,7 @@ $tablet: 100%;
     background: rgba(31, 31, 31, 0.65);
     border-width: 0px 1px 1px 1px;
     border-style: solid;
-    border-color: #d8be69;
+    border-color: $gold;
     transform: scaleY(0);
     transform-origin: top;
     font-weight: 300;
@@ -988,7 +1092,7 @@ $tablet: 100%;
   .vc-popover-content.direction-bottom.vc-container {
     border-radius: 0 !important;
     border: none;
-    border-bottom: 1.5px solid #d8be69 !important;
+    border-bottom: 1.5px solid $gold !important;
   }
   .vc-pane-container {
     background: #212121;
@@ -1006,12 +1110,12 @@ $tablet: 100%;
     border-radius: 0;
     width: 38px;
     height: 38px;
-    border: 1px solid #d8be69;
+    border: 1px solid $gold;
     background: #3c392f;
   }
   .vc-highlight {
     background-color: rgba(95, 95, 95, 0.5) !important;
-    border: 1px solid #d8be69 !important;
+    border: 1px solid $gold !important;
     border-radius: 0 !important;
     width: 38px;
     height: 38px;
@@ -1040,7 +1144,7 @@ $tablet: 100%;
   }
   .vc-nav-popover-container {
     background-color: #212121;
-    border: 1px solid #d8be69;
+    border: 1px solid $gold;
     color: #d9d9d9;
     border-radius: 0;
   }
@@ -1051,12 +1155,12 @@ $tablet: 100%;
   .vc-nav-item.is-active {
     border-radius: 0;
     background-color: #3c392f;
-    border: 1px solid #d8be69;
+    border: 1px solid $gold;
     color: #d9d9d9;
   }
   .vc-nav-item:hover {
     background-color: #3c392f;
-    border: 1px solid #d8be69;
+    border: 1px solid $gold;
     color: #d9d9d9;
     border-radius: 0;
   }
@@ -1075,7 +1179,7 @@ $tablet: 100%;
     display: block !important;
     border: none;
     border-radius: 0;
-    border-bottom: 1.5px solid #d8be69;
+    border-bottom: 1.5px solid $gold;
   }
 }
 .error {

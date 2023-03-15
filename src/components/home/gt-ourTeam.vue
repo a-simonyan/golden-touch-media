@@ -1,22 +1,26 @@
 <template>
   <div class="container" id="our-team">
-    <!-- <div class="container__line">
-      <img src="@/assets/icons/line.svg" alt="line" />
-    </div> -->
     <div class="container__content" :class="{ padd: showMembers }">
       <div
         class="container__content--title"
         :style="{ paddingRight: showMembers ? 0 : '16px' }"
       >
-        <img
-          class="container__content--play"
-          src="@/assets/icons/play-music-icon.svg"
-          alt="play"
-        />
+        <picture>
+          <source
+            media="(min-width:1024px)"
+            srcset="@/assets/icons/play-music-icon.svg"
+          />
+          <img
+            class="container__content--play"
+            src="@/assets/icons/play-music-icon-gradient.svg"
+            alt="play"
+            style="width: auto"
+          />
+        </picture>
         <div class="container__content--title-name">Our Team</div>
         <img
           class="container__content--play second"
-          src="@/assets/icons/play-music-icon.svg"
+          src="@/assets/icons/play-music-icon-gradient-right.svg"
           alt="play"
         />
       </div>
@@ -163,22 +167,20 @@ const showAllTeamMembers = () => {
         }
         @media screen and (max-width: 550px) {
           font-size: 16px;
-          padding: 0 5px;
+          padding: 0 7vpx;
         }
       }
     }
 
     &--body {
-      padding: 50px 0 ;
+      padding: 50px 0;
       @media screen and (max-width: 1100px) {
         max-width: 100vw;
         overflow-x: scroll;
         position: relative;
         scrollbar-width: thin;
         -ms-overflow-style: none;
-        // padding: 50px 0 0 0;
       }
-
       &-box {
         display: flex;
         justify-content: space-between;
@@ -211,15 +213,9 @@ const showAllTeamMembers = () => {
         justify-content: center;
         margin-top: 20px;
 
-        // @media screen and (max-width: 1850px) {
-        //   margin-top: 0px;
-        // }
         @media screen and (max-width: 1250px) {
           margin-top: 0 !important;
         }
-        // @media screen and (max-width: 750px) {
-        //   margin-top: 30px;
-        // }
       }
       &-vname {
         cursor: pointer;

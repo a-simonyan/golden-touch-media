@@ -124,7 +124,7 @@ onMounted(() => {
         font-weight: 400;
         font-size: 18px;
         line-height: 150%;
-        background: #d8be69;
+        background: $gold;
         border: none;
         @media screen and (max-width: 1750px) {
           width: 137px;

@@ -201,6 +201,7 @@ onBeforeMount(() => {
           display: flex;
           text-decoration: none;
           color: #9c9c9c;
+          align-items: center;
           &:hover {
             text-decoration: none;
             color: inherit;
@@ -233,6 +234,7 @@ onBeforeMount(() => {
           display: flex;
           text-decoration: none;
           color: #9c9c9c;
+          align-items: center;
           &:hover {
             text-decoration: none;
             color: inherit;

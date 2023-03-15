@@ -167,7 +167,7 @@ export default {
   font-weight: 600;
   font-size: 20px;
   line-height: 150%;
-  color: #d8be69;
+  color: $gold;
 }
 @media screen and (max-width: 1750px) {
   .card-title,

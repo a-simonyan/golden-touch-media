@@ -253,6 +253,7 @@ watch(
     position: absolute;
     top: 20px;
     width: 100%;
+    z-index: 9999 !important;
     &--box {
       width: 440px;
       height: 152px;

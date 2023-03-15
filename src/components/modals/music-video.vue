@@ -27,13 +27,19 @@
       </div>
       <div v-else class="container__header--content-inputs">
         <gt-input
-          v-for="(input, index) in uploadInputs"
-          :key="index"
-          :inputType="input.id === 1 ? 'file' : 'text'"
-          :placeholder="input.placeholder"
+          :fileName="fileName"
+          @change="($event) => uploadFile($event.target)"
+          inputType="file"
           style="z-index: 999"
-          v-model="input.model"
+          :placeholder="uploadInputs[0].placeholder"
         />
+        <gt-input
+          inputType="text"
+          :placeholder="uploadInputs[1].placeholder"
+          style="z-index: 999"
+          v-model="uploadInputs[1].model"
+        />
+
         <img src="@/assets/icons/link-icon.svg" alt="link" class="link-icon" />
       </div>
     </div>
@@ -69,10 +75,14 @@ const uploadInputs = ref([
     model: "",
   },
 ]);
-
+const fileName = ref("");
 const emits = defineEmits(["updatePrice"]);
 const { proxy } = getCurrentInstance();
 
+const uploadFile = (e) => {
+  fileName.value = e.value;
+  uploadInputs.value[0].model = e.files.length ? e.files[0] : null;
+};
 onMounted(() => {
   proxy.emitter.on("submitModal", () => {
     emits("updatePrice", {

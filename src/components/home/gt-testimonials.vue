@@ -2,15 +2,22 @@
   <div class="container">
     <div class="container__content">
       <div class="container__content--title">
-        <img
-          class="container__content--play"
-          src="@/assets/icons/play-music-icon.svg"
-          alt="play"
-        />
+        <picture>
+          <source
+            media="(min-width:1024px)"
+            srcset="@/assets/icons/play-music-icon.svg"
+          />
+          <img
+            class="container__content--play"
+            src="@/assets/icons/play-music-icon-gradient.svg"
+            alt="play"
+            style="width: auto"
+          />
+        </picture>
         <div class="container__content--title-name">Testimonials</div>
         <img
           class="container__content--play second"
-          src="@/assets/icons/play-music-icon.svg"
+          src="@/assets/icons/play-music-icon-gradient-right.svg"
           alt="play"
         />
       </div>
@@ -22,7 +29,6 @@
           :infinite="false"
           class="no-shadow"
           :fixed-height="true"
-        
         >
           <template #arrow-left>
             <img src="@/assets/icons/arrow-left.svg" alt="" class="arrows" />
@@ -349,7 +355,7 @@ const sliders = ref([
         }
         @media screen and (max-width: 550px) {
           font-size: 16px;
-          padding: 0 5px;
+          padding: 0 7px;
         }
       }
     }
@@ -390,7 +396,7 @@ const sliders = ref([
   }
 }
 ::-webkit-scrollbar-thumb {
-  background: #d8be69;
+  background: $gold;
   border-radius: 10px;
 }
 ::-webkit-scrollbar {

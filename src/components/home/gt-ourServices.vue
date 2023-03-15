@@ -2,24 +2,36 @@
   <div class="services-container" id="our-services">
     <div class="services-container__content">
       <div class="services-container__content--title">
-        <img
-          class="services-container__content--play"
-          src="@/assets/icons/play-music-icon.svg"
-          alt="play"
-        />
-        <div id ="services" class="services-container__content--title-name">Our Services</div>
+        <picture>
+          <source
+            media="(min-width:1024px)"
+            srcset="@/assets/icons/play-music-icon.svg"
+          />
+          <img
+            class="services-container__content--play"
+            src="@/assets/icons/play-music-icon-gradient.svg"
+            alt="play"
+            style="width: auto"
+          />
+        </picture>
+        <div id="services" class="services-container__content--title-name">
+          Our Services
+        </div>
         <img
           class="services-container__content--play second"
-          src="@/assets/icons/play-music-icon.svg"
+          src="@/assets/icons/play-music-icon-gradient-right.svg"
           alt="play"
         />
       </div>
       <div class="services-container__content--services">
-        <div class="services-container__content--services-column" id="production">
+        <div
+          class="services-container__content--services-column"
+          id="production"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/production.svg" alt="prod" />
           </div>
-          <div class="services-container__content--services-name" >
+          <div class="services-container__content--services-name">
             Production
           </div>
           <div class="services-container__content--services-body">
@@ -36,7 +48,10 @@
             >
           </div>
         </div>
-        <div class="services-container__content--services-column" id="processed">
+        <div
+          class="services-container__content--services-column"
+          id="processed"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/processed.svg" alt="procesed" />
           </div>
@@ -55,7 +70,10 @@
             >
           </div>
         </div>
-        <div class="services-container__content--services-column" id="finished-work">
+        <div
+          class="services-container__content--services-column"
+          id="finished-work"
+        >
           <div class="services-container__content--services-icon">
             <img src="@/assets/icons/finished.svg" alt="finish" />
           </div>
@@ -231,7 +249,7 @@
         }
         @media screen and (max-width: 550px) {
           font-size: 16px;
-          padding: 0 5px;
+          padding: 0 7px;
         }
       }
     }

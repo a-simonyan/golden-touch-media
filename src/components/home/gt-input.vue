@@ -1,7 +1,18 @@
 <template>
   <div class="container">
-    <div v-if="props.inputType === 'file'" class="choose-file">
+    <div
+      v-if="props.inputType === 'file' && !props.fileName"
+      class="choose-file"
+    >
       <span class="choose-file__placeholder"> Choose File* </span>
+    </div>
+    <div
+      v-if="props.inputType === 'file' && props.fileName"
+      class="choose-file"
+    >
+      <span class="choose-file__placeholder fileName">
+        {{ props.fileName }}</span
+      >
     </div>
     <input
       @input="changeInputValue($event.target.value)"
@@ -37,6 +48,9 @@ const props = defineProps({
   },
   isNumber: {
     type: Boolean,
+  },
+  fileName: {
+    type: String,
   },
 });
 
@@ -129,8 +143,7 @@ const changeInputValue = (v) => {
   height: 20px;
   margin-bottom: 28px;
   @media screen and (max-width: 1250px) {
-  margin-bottom: 8px;
-
+    margin-bottom: 8px;
   }
 }
 .choose-file {
@@ -154,5 +167,8 @@ const changeInputValue = (v) => {
       left: 16px;
     }
   }
+}
+.fileName {
+  color: $silver;
 }
 </style>
